@@ -1,0 +1,14 @@
+#upper-nav {
+    width: 100%;
+}
+
+#upper-nav ul {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.05rem;
+}
+
+#upper-nav ul li {
+    margin-right: 3vw;
+}

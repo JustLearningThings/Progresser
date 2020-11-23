@@ -1,0 +1,20 @@
+#error-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#error-modal-box {
+    text-align: center;
+    padding: 30px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}

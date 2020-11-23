@@ -1,0 +1,240 @@
+/* nav {
+    width: 22vw;
+    height: 100vh;
+    margin: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+/* Navigation header */
+
+/* #nav-header {
+    height: 18%;
+    width: 100%;
+    background-color: #628192;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#nav-header-heading {
+    margin: 0;
+}
+
+#nav-header-heading a {
+    color: white;
+} */
+
+/* Navigation tabs */
+
+/* #nav-tabs {
+    height: 72%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-tab {
+    width: 100%;
+    height: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity .1s ease;
+    cursor: pointer;
+}
+
+.nav-tab:hover {
+    opacity: .75;
+}
+
+.nav-tab-text h2 {
+    margin-bottom: 3px;
+}
+
+.nav-tab-text p {
+    margin-top: 0;
+    font-size: .8rem;
+}
+
+.nav-link {
+    background-color: #f7f7f7;
+}
+
+.active-nav-link {
+    background-color: #f1f1f1;
+} */
+
+/* Navigation footer */
+/* #nav-footer {
+    height: 10%;
+    width: 100%;
+    background-color: #1f1f1f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .75rem;
+} */
+
+/* @media screen and (max-width: 992px) {
+    nav {
+        height: initial;
+        width: 100%;
+    }
+    #nav-header {
+        width: initial;
+        height: initial;
+    }
+    #nav-tabs {
+        width: initial;
+        flex-direction: row;
+        height: initial;
+    }
+    #nav-footer {
+        width: initial;
+        height: initial;
+    }
+} */
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #628092;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+#nav-header {
+    margin-left: 10%;
+}
+
+#nav-header-heading {
+    font-size: 1.25rem;
+}
+
+#nav-header-heading a {
+    color: white;
+}
+
+.hamburger-tile {
+    width: 100%;
+    height: 15%;
+    background-color: white;
+}
+
+#hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40px;
+    height: 25px;
+    margin-right: 10%;
+    cursor: pointer;
+}
+
+#nav-tabs {
+    width: 100%;
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#nav-tabs, #nav-tabs a {
+    color: white;
+}
+
+.nav-tab h2 {
+    margin-bottom: 0;
+}
+
+.nav-tab p {
+    margin-top: 0;
+}
+
+.nav-link {
+    width: 100%;
+}
+
+.active-nav-link {
+    background-color: #E1DFAD;
+}
+
+@media screen and (min-width: 992px) {
+    #hamburger { display: none; }
+    nav {
+        width: 22vw;
+        height: 100vh;
+    }
+    #nav-header {
+        height: 18%;
+        width: 100%;
+        background-color: #628192;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0;
+    }
+    #nav-header-heading {
+        font-size: 1.5rem;
+    }
+    #nav-tabs {
+        height: 72%;
+        width: 100%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    #dashboard-title {
+        margin-top: 8vh;
+    }
+    #nav-footer {
+        height: 10%;
+        width: 100%;
+        background-color: #1f1f1f;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: .75rem;
+    }
+    .nav-tab {
+        width: 100%;
+        height: 125px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: opacity .1s ease;
+        cursor: pointer;
+    }
+    #nav-tabs a {
+        color: black;
+    }
+    .nav-tab:hover {
+        opacity: .75;
+    }
+    .nav-tab-text h2 {
+        margin-bottom: 3px;
+    }
+    .nav-tab-text p {
+        margin-top: 0;
+        font-size: .8rem;
+    }
+    .nav-link {
+        background-color: #f7f7f7;
+    }
+    .active-nav-link {
+        background-color: #f1f1f1;
+    }
+}

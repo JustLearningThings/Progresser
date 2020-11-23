@@ -1,0 +1,132 @@
+.skill-controller,
+.skill-form {
+    background-color: #E1DFAD;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+    padding: 15px;
+    width: 75%;
+    margin: 7% auto;
+}
+
+.skill-controller h3,
+.skill-controller-description,
+.skill-form h3,
+.skill-form-description
+{
+    text-align: center;
+}
+
+.skill-controller h3,
+.skill-form h3 {
+    font-size: 1.35rem;
+    font-weight: normal;
+}
+
+.skill-controller-progress-bar-container,
+.skill-form-progress-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    position: relative;
+    margin: 10% auto;
+}
+
+.skill-controller-level,
+.skill-form-level {
+    position: absolute;
+    top: -60%;
+}
+
+.skill-controller-xp,
+.skill-form-xp {
+    margin-right: 2%;
+}
+
+.skill-controller-required-xp,
+.skill-form-required-xp {
+    margin-left: 2%;
+}
+
+.skill-controller-progress-bar,
+.skill-form-progress-bar {
+    width: 85%;
+    background-color: #EAEEF0;
+    height: 40px;
+}
+
+.skill-controller-progress-bar-container
+.skill-controller-progress-bar-progress,
+.skill-form-progress-bar-container
+.skill-form-progress-bar-progress {
+    background-color: #628092;
+    height: 100%;
+    margin: 0;
+}
+
+.skill-controller-description,
+.skill-form-description {
+    margin: 3% auto 5% auto;
+}
+
+.skill-controller-actions,
+.skill-form-actions {
+    margin: 5% auto;
+}
+
+.skill-controller-action,
+.skill-form-action {
+    cursor: pointer;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    margin: 3% auto;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.skill-controller-date,
+.skill-controller-edit,
+.skill-controller-delete,
+.skill-form-date,
+.skill-form-edit
+{
+    font-weight: lighter;
+    font-size: .8rem;
+}
+
+.skill-controller-edit {
+    float: right;
+    margin-right: 2%;
+}
+
+.skill-controller-delete {
+    float: right;
+    margin-right: 1%;
+    color: red;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .skill-controller-progress-bar-container,
+    .skill-form-progress-bar-container {
+        margin: 25% auto 15% auto;
+    }
+    .skill-controller-description,
+    .skill-form-description {
+        margin: 10% auto;
+    }
+    .skill-controller-actions,
+    .skill-form-actions {
+        margin: 10% auto;
+    }
+    .skill-controller-date,
+    .skill-controller-edit,
+    .skill-form-date {
+        font-size: .7rem;
+    }
+}

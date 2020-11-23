@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
+
+#dashboard {
+    min-height: 100vh;
+    font-family: 'Raleway', sans-serif;
+}
+
+#dashboard-title {
+    text-align: center;
+    margin-top: 12vh;
+    font-size: 2.25rem;
+    font-weight: lighter;
+}
+
+#skills, #plans {
+    width: 92.5%;
+    margin: 3vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 10%;
+    align-items: center;
+}
+
+#skills-container {
+    margin-left: 22vw;
+}
+
+@media screen and (max-width: 991px) {
+    #skills {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    #skills-container {
+        margin-left: initial;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #skills {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

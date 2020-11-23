@@ -1,0 +1,19 @@
+.loading {
+  border-radius: 50%;
+  border: 5px solid gray;
+  border-top: 5px solid cornflowerblue;
+  border-right: 5px solid cornflowerblue;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 50vw;
+  top: 50vh;
+  left: calc(50vw - 25px);
+  right: calc(50vh - 25px);
+  animation: loading .9s ease infinite;
+}
+
+@keyframes loading {
+  from { transform: rotate(-45deg); }
+  to { transform: rotate(305deg); }
+} 

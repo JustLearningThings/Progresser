@@ -25,11 +25,11 @@
 .plan-controller-progress-bar-container,
 .plan-form-progress-bar-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     width: 95%;
     position: relative;
-    margin: 10% auto;
+    margin: 5% auto;
 }
 
 /* .plan-controller-level,
@@ -38,15 +38,16 @@
     top: -60%;
 } */
 
-.plan-controller-xp,
-.plan-form-xp {
-    margin-right: 2%;
+.plan-controller-progress,
+.plan-form-progress {
+    margin-bottom: 2%;
+    /* margin-right: 2%; */
 }
 
-.plan-controller-required-xp,
-.plan-form-required-xp {
+/* .plan-controller-required-progress,
+.plan-form-required-progress {
     margin-left: 2%;
-}
+} */
 
 .plan-controller-progress-bar,
 .plan-form-progress-bar {
@@ -58,10 +59,20 @@
 .plan-controller-progress-bar-container
 .plan-controller-progress-bar-progress,
 .plan-form-progress-bar-container
-.plan-form-progress-bar-progress {
+.plan-form-progress-bar-progress,
+.plan-controller-progress-bar-container
+.plan-controller-progress-bar-progress-completed,
+.plan-form-progress-bar-container
+.plan-form-progress-bar-progress-completed {
     background-color: #628092;
     height: 100%;
     margin: 0;
+}
+.plan-controller-progress-bar-container
+.plan-controller-progress-bar-progress-completed,
+.plan-form-progress-bar-container
+.plan-form-progress-bar-progress-completed {
+    background-color: #c24444;
 }
 
 .plan-controller-description,
@@ -74,8 +85,8 @@
     margin: 5% auto;
 }
 
-.plan-controller-action,
-.plan-form-action {
+.plan-controller-task,
+.plan-form-task {
     cursor: pointer;
     font-size: 1.05rem;
     border-bottom: 1px solid rgba(0, 0, 0, .15);

@@ -3,20 +3,20 @@ import { BrowserRouter, useHistory } from 'react-router-dom'
 
 import './DashboardPlan.css'
 
-export default function DashboardPlan({ title, xp, requiredXp, description, id, date }) {
+export default function DashboardPlan({ title, progress, description, id, date }) {
     const history = useHistory()
-    const progressBarWidth = 100 * xp / requiredXp
+    const progressBarWidth = progress
 
     return (
         <div className='plan' onClick={() => {
             history.push(`/dashboard/plans/${id}`, { id })
         }}>
             <h3 className='plan-title'>{title}</h3>
-            <p className='plan-progress-bar-xp'>XP: {xp}/{requiredXp}</p>
+            <p className='plan-progress-bar-progress'>{progress}%</p>
             <div className='plan-progress-bar'>
                 <div
-                    className='plan-progress-bar-inner'
-                    style={{ width: progressBarWidth }}
+                    className={`plan-progress-bar-inner${progressBarWidth == 100 ? '-completed' : ''}`}
+                    style={{ width: `${progressBarWidth}%` }}
                 ></div>
             </div>
             <p className='plan-description'>

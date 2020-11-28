@@ -6,18 +6,17 @@ import './PlanController.css'
 import AuthContext from '../../../auth/authContext'
 import { authFetch } from '../../../auth/auth'
 
-export default function SkillController() {
+export default function PlanController() {
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
     let { id } = location.state
 
-    let [plan, setSkill] = useState({
+    let [plan, setPlan] = useState({
         title: '',
-        xp: 0,
-        requiredXp: 0,
+        progress: 0,
         description: '',
-        actions: [],
+        tasks: [],
         date: Date.now()
     })
 
@@ -25,12 +24,11 @@ export default function SkillController() {
         authFetch(`/api/plans/${id}`, null, history, authContext.changeUser, res => {
             res.json()
                 .then(res => {
-                    setSkill({
+                    setPlan({
                         title: res.name,
-                        xp: res.xp,
-                        requiredXp: res.requiredXp,
+                        progress: res.progress,
                         description: res.description,
-                        actions: res.actions,
+                        tasks: res.tasks,
                         date: res.date
                     })
                 })
@@ -42,24 +40,23 @@ export default function SkillController() {
         authFetch(`/api/plans/${id}`, { method: 'DELETE' }, history, authContext.changeUser, () => history.push('/dashboard/plans'))
     }
 
-    let actionsList = []
+    let tasksList = []
 
-    function updateXp(value) {
+    function updateProgress(value) {
         let options = {
             method: 'PUT',
             body: new URLSearchParams(`value=${value}`),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }
 
-        authFetch(`/api/plans/${id}?updateXp=true`, options, history, authContext.changeUser, res => {
+        authFetch(`/api/plans/${id}?updateProgress=true`, options, history, authContext.changeUser, res => {
             res.json()
                 .then(res => {
-                    setSkill({
+                    setPlan({
                         title: res.name,
-                        xp: res.xp,
-                        requiredXp: res.requiredXp,
+                        progress: res.progress,
                         description: res.description,
-                        actions: res.actions,
+                        tasks: res.tasks,
                         date: res.date
                     })
                 })
@@ -67,18 +64,18 @@ export default function SkillController() {
         })
     }
 
-    if (plan.actions)
-        plan.actions.forEach((action, i) => {
-            actionsList.push((
+    if (plan.tasks)
+        plan.tasks.forEach((task, i) => {
+            tasksList.push((
                 <li
                     key={i}
-                    className='plan-controller-action'
-                    onClick={() => updateXp(action.value)}
-                > {action.name} </li>
+                    className='plan-controller-task'
+                    onClick={() => updateProgress(task.value)}
+                > {task.name} </li>
             ))
         })
 
-    const progressBarWidth = 100 * plan.xp / plan.requiredXp
+    const progressBarWidth = plan.progress
 
     let date = ''
 
@@ -92,21 +89,20 @@ export default function SkillController() {
         <div className='plan-controller'>
             <h3>{plan.title}</h3>
             <div className='plan-controller-progress-bar-container'>
-                <div className='plan-controller-xp'>{plan.xp}</div>
+                <div className='plan-controller-progress'>{plan.progress}%</div>
                 <div className='plan-controller-progress-bar'>
                     <div
-                        className='plan-controller-progress-bar-progress'
+                        className={`plan-controller-progress-bar-progress${progressBarWidth == 100 ? '-completed' : ''}`}
                         style={{ width: `${progressBarWidth}%` }}
                     >
                     </div>
                 </div>
-                <div className='plan-controller-required-xp'>{plan.requiredXp}</div>
             </div>
             <p className='plan-controller-description'>
                 {plan.description}
             </p>
-            <ul className='plan-controller-actions'>
-                {actionsList}
+            <ul className='plan-controller-tasks'>
+                {tasksList}
             </ul>
             <span className='plan-controller-date'>
                 Started on {date}

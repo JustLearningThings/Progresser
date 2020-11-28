@@ -218,17 +218,28 @@ class Plan {
         let model = {
             name: req.body.name,
             description: '',
-            xp: 0,
-            requiredXp: 10,
-            tasks: []
+            progress: 0,
+            tasks: [],
+            completed: false
         }
 
         if (req.body.description) model.description = req.body.description
         if (req.body.requiredXp) model.requiredXp = req.body.requiredXp
         if (req.body.tasks) {
             model.tasks = req.body.tasks
-            model.tasks.forEach(task => task.value = Number(task.value))
+            model.tasks.forEach(task => {
+                task.completed = false
+                task.value = Number(100 / model.tasks.length)
+            })
         }
+        // if (req.body.tasks) {
+        //     model.tasks = req.body.tasks
+        //     model.tasks.forEach(task => {
+        //         task.completed = false
+        //         task.completionSteps = task.completionSteps ? task.completionSteps : 1
+        //         task.value = Number(100 / model.tasks.length / task.completionSteps)
+        //     })
+        // }
 
         Plans.create(model, (err, plan) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot create plan document' })
@@ -308,16 +319,28 @@ class Plan {
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
 
-        Plan.findById(req.params.id, (err, plan) => {
+        Plans.findById(req.params.id, (err, plan) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find plan' })
 
             let update = req.body
 
-            if (update.value) update.value = Number(update.value)
+            if (req.query.updateProgress && !plan.completed && update.completedTask) {
+                update.tasks = plan.tasks
+                update.tasks.forEach(task => {
+                    if (task.name == update.completedTask) {
+                        task.completed = true
+                        if (task.value + plan.progress >= 100) {
+                            update.completed = true
+                            update.progress = 100
+                        }
+                        else update.progress += task.value
+                    }
+                })
 
-            // ...
+                delete update.completedTask
+            }
 
-            Plans.updateOne({ _id: req.params.id }, update, { new: true }, (err, updatePlan) => {
+            Plans.findOneAndUpdate({ _id: req.params.id }, update, { new: true }, (err, updatePlan) => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update plan' })
 
                 return res.json(updatePlan)

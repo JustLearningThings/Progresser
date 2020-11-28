@@ -8,29 +8,25 @@ const planSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    date: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    // level: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0
-    // },
-    xp: {
+    progress: {
         type: Number,
         required: true,
         default: 0
     },
-    requiredXp: {
-        type: Number,
-        required: true
+    completed: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     tasks: {
         type: Array,
         required: true,
         default: []
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
     }
 })
 

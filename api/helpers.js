@@ -321,6 +321,8 @@ class Plan {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find plan' })
 
             let update = req.body
+            update.completed = false
+            update.progress = plan.progress
 
             if (req.query.updateProgress && !plan.completed && update.completedTask) {
                 update.tasks = plan.tasks

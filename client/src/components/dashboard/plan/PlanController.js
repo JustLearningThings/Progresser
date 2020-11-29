@@ -42,10 +42,10 @@ export default function PlanController() {
 
     let tasksList = []
 
-    function updateProgress(value) {
+    function updateProgress(taskName) {
         let options = {
             method: 'PUT',
-            body: new URLSearchParams(`value=${value}`),
+            body: new URLSearchParams(`completedTask=${taskName}`),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }
 
@@ -70,7 +70,7 @@ export default function PlanController() {
                 <li
                     key={i}
                     className={`plan-controller-task${task.completed ? ' plan-controller-task-completed' : ''}`}
-                    onClick={() => task.completed ? '' : updateProgress(task.value)}
+                    onClick={() => task.completed ? '' : updateProgress(task.name)}
                 > {task.name} </li>
             ))
         })
@@ -90,11 +90,11 @@ export default function PlanController() {
         <div className='plan-controller'>
             <h3>{plan.title}</h3>
             <div className='plan-controller-progress-bar-container'>
-                <div className='plan-controller-progress'>{plan.progress === 100 ? 'completed' : `${plan.progress}%`}</div>
+                <div className='plan-controller-progress'>{plan.progress === 100 ? 'completed' : `${plan.progress.toFixed(2)}%`}</div>
                 <div className='plan-controller-progress-bar'>
                     <div
                         className={`plan-controller-progress-bar-progress${progressBarWidth == 100 ? '-completed' : ''}`}
-                        style={{ width: `${progressBarWidth}%` }}
+                        style={{ width: `${progressBarWidth.toFixed(2)}%` }}
                     >
                     </div>
                 </div>

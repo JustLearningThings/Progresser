@@ -22,8 +22,7 @@
     font-weight: normal;
 }
 
-.plan-controller-progress-bar-container,
-.plan-form-progress-bar-container {
+.plan-controller-progress-bar-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,25 +31,12 @@
     margin: 5% auto;
 }
 
-/* .plan-controller-level,
-.plan-form-level {
-    position: absolute;
-    top: -60%;
-} */
-
 .plan-controller-progress,
 .plan-form-progress {
     margin-bottom: 2%;
-    /* margin-right: 2%; */
 }
 
-/* .plan-controller-required-progress,
-.plan-form-required-progress {
-    margin-left: 2%;
-} */
-
-.plan-controller-progress-bar,
-.plan-form-progress-bar {
+.plan-controller-progress-bar {
     width: 85%;
     background-color: #EAEEF0;
     height: 40px;
@@ -58,20 +44,14 @@
 
 .plan-controller-progress-bar-container
 .plan-controller-progress-bar-progress,
-.plan-form-progress-bar-container
-.plan-form-progress-bar-progress,
 .plan-controller-progress-bar-container
-.plan-controller-progress-bar-progress-completed,
-.plan-form-progress-bar-container
-.plan-form-progress-bar-progress-completed {
+.plan-controller-progress-bar-progress-completed {
     background-color: #628092;
     height: 100%;
     margin: 0;
 }
 .plan-controller-progress-bar-container
-.plan-controller-progress-bar-progress-completed,
-.plan-form-progress-bar-container
-.plan-form-progress-bar-progress-completed {
+.plan-controller-progress-bar-progress-completed {
     background-color: #c24444;
 }
 
@@ -81,7 +61,7 @@
 }
 
 .plan-controller-actions,
-.plan-form-actions {
+.plan-form-tasks {
     margin: 5% auto;
 }
 
@@ -129,8 +109,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .plan-controller-progress-bar-container,
-    .plan-form-progress-bar-container {
+    .plan-controller-progress-bar-container {
         margin: 25% auto 15% auto;
     }
     .plan-controller-description,
@@ -138,7 +117,7 @@
         margin: 10% auto;
     }
     .plan-controller-actions,
-    .plan-form-actions {
+    .plan-form-tasks {
         margin: 10% auto;
     }
     .plan-controller-date,

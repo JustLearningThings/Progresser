@@ -35,42 +35,42 @@ textarea:focus {
     background-color: #EAEEF0;
 }
 
-.plan-form-action-container {
+.plan-form-task-container {
     display: flex;
     justify-content: center;
 }
 
-.plan-form-action-container
-.plan-form-action-remove {
+.plan-form-task-container
+.plan-form-task-remove {
     cursor: pointer;
     color: red;
     font-size: .9rem;
 }
 
-.plan-form-action-container
-.plan-form-action-name {
+.plan-form-task-container
+.plan-form-task-name {
     flex-basis: 60%;
 }
 
-.plan-form-action-container
-.plan-form-action-value {
+.plan-form-task-container
+.plan-form-task-value {
     flex-basis: 10%;
 }
 
-.plan-form-action {
+.plan-form-task {
     cursor: default;
     border: none;
 }
 
-.plan-form-action input {
+.plan-form-task input {
     text-align: center;
     width: 25%;
     margin-right: 3%;
     font-size: .9rem;
 }
 
-.plan-form-action
-.plan-form-action-value {
+.plan-form-task
+.plan-form-task-value {
     width: 10%;
 }
 
@@ -85,7 +85,7 @@ textarea:focus {
     text-decoration: underline
 }
 
-#plan-form-actions-add {
+#plan-form-tasks-add {
     cursor: pointer;
     margin-top: 5%;
     text-align: center;

@@ -28,8 +28,6 @@ export default function PlanForm({ method }) {
         initialState = {
             name: plan.title,
             description: plan.description,
-            xp: plan.xp,
-            requiredXp: plan.requiredXp,
             date: plan.date,
             tasks: plan.tasks
         }
@@ -51,15 +49,15 @@ export default function PlanForm({ method }) {
     function handleSubmit(e) {
         e.preventDefault()
 
-        function actionsToUrlEnocoded(tasks) {
-            let actionsStr = ''
+        function tasksToUrlEncoded(tasks) {
+            let tasksStr = ''
 
             tasks.forEach((task, i) => {
-                if (task.name !== '' || task.value)
-                    actionsStr += `tasks[${i}][name]=${encodeURIComponent(task.name)}&tasks[${i}][value]=${encodeURIComponent(task.value)}&`
+                if (task.name !== '' || task.steps)
+                    tasksStr += `tasks[${i}][name]=${encodeURIComponent(task.name)}&`
             })
 
-            return actionsStr.replace(/%20/g, '+')
+            return tasksStr.replace(/%20/g, '+')
         }
 
         // decide on the url based on the desired method
@@ -77,10 +75,11 @@ export default function PlanForm({ method }) {
                 urlEncodedPairs.push(`${encodeURIComponent(name)}=${encodeURIComponent(data[name])}`)
         }
 
-        let tasks = actionsToUrlEnocoded(data.tasks)
-
         urlEncodedData = urlEncodedPairs.join('&').replace(/%20/g, '+')
-        urlEncodedData += `&${tasks}`
+        
+        if (method === 'POST')
+            urlEncodedData += `&${tasksToUrlEncoded(data.tasks)}`
+
         urlEncodedData = urlEncodedData.slice(0, -1)
 
         // send data
@@ -106,7 +105,7 @@ export default function PlanForm({ method }) {
     function addTask() {
         let formTasks = form.tasks
 
-        formTasks.push({ name: '', value: '' })
+        formTasks.push({ name: '', steps: '' })
         setForm({ ...form, formTasks })
     }
 
@@ -115,21 +114,20 @@ export default function PlanForm({ method }) {
         let formTasks = form.tasks
 
         formTasks.splice(i, 1)
-        setForm({ ...form, formTasks })
+        setForm({ ...form, tasks: formTasks })
     }
 
     // create tasks DOM elements
-    let actionsList = []
+    let tasksList = []
 
-    if (form.tasks)
+    if (method === 'POST' && form.tasks)
         form.tasks.forEach((task, i) => {
-            actionsList.push((
+            tasksList.push((
                 <li
                     key={i}
                     className='plan-form-task'>
                     <div className='plan-form-task-container'>
                         <input className='plan-form-task-name' name='task-name' type='text' value={task.name} required onChange={e => handleChange(e, 'name', i)}></input>
-                        <input className='plan-form-task-value' type='number' name='task-value' type='text' value={task.value} required onChange={e => handleChange(e, 'value', i)}></input>
                         <span className='plan-form-task-remove' onClick={e => removeTask(i)}>&#10060;</span>
                     </div>
                 </li>
@@ -143,27 +141,17 @@ export default function PlanForm({ method }) {
                 <label htmlFor='plan-form-input-name'>Name</label>
                 <input id='plan-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
             </div>
-            {(form.xp && form.requiredXp && progressBarWidth) ? (
-                <div className='plan-form-progress-bar-container'>
-                    <div className='plan-form-xp'>{form.xp}</div>
-                    <div className='plan-form-progress-bar'>
-                        <div
-                            className='plan-form-progress-bar-progress'
-                            style={{ width: `${progressBarWidth}%` }}
-                        >
-                        </div>
-                    </div>
-                    <div className='plan-form-required-xp'>{form.requiredXp}</div>
-                </div>
-            ) : ''}
             <p className='plan-form-description'>
                 <label htmlFor='plan-form-input-description'>Description</label>
                 <textarea id='plan-form-input-description' name='description' value={form.description} required onChange={e => handleChange(e, 'description')}></textarea>
             </p>
-            <ul className='plan-form-tasks'>
-                {(actionsList && actionsList.length > 0) ? actionsList : ''}
-                <li id='plan-form-tasks-add' onClick={e => addTask()}>Add task</li>
-            </ul>
+            { method === 'POST' ?
+                <ul className='plan-form-tasks'>
+                    {(tasksList && tasksList.length > 0) ? tasksList : ''}
+                    <li id='plan-form-tasks-add' onClick={e => addTask()}>Add task</li>
+                </ul>
+                : ''
+            }
             {date ? (
                 <span className='plan-form-date'>
                     Started on {date}

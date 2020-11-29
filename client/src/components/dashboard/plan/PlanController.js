@@ -69,8 +69,8 @@ export default function PlanController() {
             tasksList.push((
                 <li
                     key={i}
-                    className='plan-controller-task'
-                    onClick={() => updateProgress(task.value)}
+                    className={`plan-controller-task${task.completed ? ' plan-controller-task-completed' : ''}`}
+                    onClick={() => task.completed ? '' : updateProgress(task.value)}
                 > {task.name} </li>
             ))
         })
@@ -85,11 +85,12 @@ export default function PlanController() {
     }
 
     if (!plan.title) return (<Loading />)
+
     return (
         <div className='plan-controller'>
             <h3>{plan.title}</h3>
             <div className='plan-controller-progress-bar-container'>
-                <div className='plan-controller-progress'>{plan.progress}%</div>
+                <div className='plan-controller-progress'>{plan.progress === 100 ? 'completed' : `${plan.progress}%`}</div>
                 <div className='plan-controller-progress-bar'>
                     <div
                         className={`plan-controller-progress-bar-progress${progressBarWidth == 100 ? '-completed' : ''}`}

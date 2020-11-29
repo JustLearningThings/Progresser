@@ -192,12 +192,10 @@ class Plan {
         read: [param('id').isMongoId()],
         update: [
             param('id').isMongoId().optional(),
-            query('updateXp').isBoolean().optional().optional(),
+            query('updateProgress').isBoolean().optional().optional(),
             body('name').escape().trim().matches(/[a-zA-Z0-9\s]+/).not().isEmpty().optional(),
             body('description').escape().trim().matches(/[a-zA-Z0-9\s]+/).optional(),
-            // body('level').escape().isNumeric(),
-            body('xp').escape().isNumeric().optional(),
-            body('requiredXp').escape().isNumeric().optional()
+            body('completedTask').escape().trim().matches(/[a-zA-Z0-9\s]+/).optional()
         ],
         delete: [param('id').isMongoId()]
     }

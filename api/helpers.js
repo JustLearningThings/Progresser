@@ -2,6 +2,7 @@ const Skills = require('./models/skill.js')
 const Plans = require('./models/plan.js')
 const Badges = require('./models/badge.js')
 const User = require('./models/user.js')
+const badgeList = require('./badges.js')
 
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
@@ -9,6 +10,7 @@ const jwt = require('jsonwebtoken')
 const { body, param, query, validationResult } = require('express-validator')
 require('dotenv').config()
 
+// using classes with static methods as a means to organize code
 class Skill {
     static validators = {
         create: [
@@ -230,14 +232,6 @@ class Plan {
                 task.value = Number(100 / model.tasks.length)
             })
         }
-        // if (req.body.tasks) {
-        //     model.tasks = req.body.tasks
-        //     model.tasks.forEach(task => {
-        //         task.completed = false
-        //         task.completionSteps = task.completionSteps ? task.completionSteps : 1
-        //         task.value = Number(100 / model.tasks.length / task.completionSteps)
-        //     })
-        // }
 
         Plans.create(model, (err, plan) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot create plan document' })
@@ -245,7 +239,7 @@ class Plan {
             Plans.updateOne({ _id: plan._id }, { tasks: model.tasks }, err => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update plan document with tasks' })
 
-                User.updateOne({ _id: userId }, { $push: { plans: plan._id } }, { new: true }, (err, updatePlan) => {
+                User.updateOne({ _id: userId }, { $push: { plans: plan._id } }, { new: true }, (err, updatedPlan) => {
                     if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with plan' })
 
                     return res.status(201).json({ id: plan._id })
@@ -326,12 +320,22 @@ class Plan {
 
             if (req.query.updateProgress && !plan.completed && update.completedTask) {
                 update.tasks = plan.tasks
-                update.tasks.forEach(task => {
+                update.tasks.forEach(async (task) => {
                     if (task.name == update.completedTask) {
                         task.completed = true
                         if (task.value + plan.progress >= 100) {
                             update.completed = true
                             update.progress = 100
+
+                            // create badge
+                            const userId = await jwt.decode(accessToken).sub
+
+                            if (userId) {
+                                User.findById(userId, (err, user) => {
+                                    if (user.plans.length === 1)
+                                        Badge.createBadge('Strategist', userId)
+                                })
+                            }
                         }
                         else update.progress += task.value
                     }
@@ -375,8 +379,57 @@ class Plan {
     }
 }
 
-// update read and readAll on Skill object 
+class Badge {
+    // each tier has a value to update the user xp based on earned badge tier
+    static tiers = [
+        { name: 'Common', value: 15 },
+        { name: 'Rare', value: 25 },
+        { name: 'Honored', value: 50 },
+        { name: 'Legendary', value: 100 },
+    ]
+
+    // add error handling
+    static async createBadge(name, userId) {
+        let badge = badgeList.find(b => b.name === name)
+
+        badge.tier = this.tiers[0].name
+
+        User.findById(userId, (err, user) => {
+            if (err) return false
+
+            // dont create the badge if the user already has it
+            if (user.badges.find(b => b.name === name)) return false
+
+            const points = user.points + this.tiers[0].value
+
+            User.findByIdAndUpdate(userId, { $push: { badges: badge }, points }, err => err ? false : true)
+        })
+    }
+
+    static levelUpBadge(name, userId) {
+        let badge = user.badges.find(b => b.name === name)
+
+        // if current tier is the last one, do nothing
+        if (badge.tier === tiers[tiers.length - 1]) return true
+        
+        // update tier
+        const tierId = tiers.findIndex(t => t.name === badge.tier) + 1
+        badge.tier = tiers[tierId].name
+
+        User.findById(userId, (err, user) => {
+            if (err) return false
+
+            User.updateOne({ _id: userId }, {
+                $push: { badges: badge }, points: user.points + tiers[tierId].value
+            }, err => err ? false : true)
+        })
+    }
+}
+
+// update read and readAll on Skill object
+// remove badge model 
 module.exports = {
     Skill,
     Plan,
+    Badge
 }

@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    points: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     refresh: {
         type: String,
     }

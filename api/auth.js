@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./models/user.js')
 
+const { Badge } = require('./helpers.js')
+
 require('dotenv').config()
 
 router.post('/signup', async (req, res) => {
@@ -30,10 +32,11 @@ router.post('/signup', async (req, res) => {
 
     await User.updateOne({ _id: user._id }, { refresh: refreshToken })
 
+    // create the Novice badge in the user document
+    await Badge.createBadge('Novice', user._id)
+
     res.set('Set-Cookie', cookies)
     res.status(201).json({ userId: user._id, username: user.username })
-    // res.set('Authorization', `Bearer ${token}`)
-    // res.status(201).json({ token, token_expiry }) // expiry in minutes
 })
 
 router.post('/login', async (req, res) => {
@@ -60,43 +63,8 @@ router.post('/login', async (req, res) => {
 
         res.set('Set-Cookie', cookies)
         res.status(201).json({ userId: user._id, username: user.username })
-        // res.set('Authorization', `Bearer ${ token }`)
-        // res.json({ token, token_expiry })
     })
 })
-
-// issue a new access token
-// Note: if refresh token is missing or invalid, the client must perform a /login POST request
-// router.post('/auth/refresh', async (req, res) => {
-//     const { refreshToken } = req.cookies
-
-//     if (!refreshToken) return res.status(403).json({ message: 'Forbidden: refresh token is missing' })
-
-//     // const userId = rt.sub
-//     // const { refresh } = await User.findById(userId)
-
-//     // if (refreshToken !== refresh) return res.status(403).json({ message: 'Forbidden: refresh tokens from client and database don\'t match' })
-
-//     // verify the refresh token
-//     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
-//         if (err) return res.status(403).json({ message: 'Forbidden: refresh token is invalid' })
-
-//         const userId = jwt.decode(refreshToken).sub
-//         const { refresh } = await User.findById(userId)
-
-//         if (refreshToken !== refresh) return res.status(403).json({ message: 'Forbidden: refresh tokens from client and database don\'t match' })
-
-//         // if refresh token is valid, issue a new access token
-//         const token_expiry = 10
-//         const token = createAcessToken('10m', decoded.sub, decoded.name)
-//         const rt = createRefreshToken('7d', '604800', decoded.sub, decoded.name, res)
-
-//         await User.updateOne({ _id: decoded.sub }, { refresh: rt })
-
-//         res.set('Authorization', `Bearer ${token}`)
-//         res.json({ token, token_expiry })
-//     })
-// })
 
 router.post('/refresh', async (req, res) => {
     const { refreshToken } = req.cookies
@@ -121,25 +89,6 @@ router.post('/refresh', async (req, res) => {
         res.status(201).json({ userId: user._id, username: user.username })
     })
 })
-
-// route to check if the refresh token is valid
-// and if so send user data to update the App component state on client
-// router.get('/auth/checkRefresh', async (req, res) => {
-//     const { refreshToken } = req.cookies
-
-//     if (!refreshToken) return res.status(401).json({ message: 'Unauthorized: missing refresh token' })
-
-//     const userId = await jwt.decode(refreshToken).sub
-//     const user = await User.findById(userId)
-
-//     if (refreshToken !== user.refresh) return res.status(403).json({ message: 'Forbidden: refresh tokens don\'t match' })
-
-//     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async err => {
-//         if (err) return res.status(401).json({ message: 'Unauthroized: invalid refresh token' })
-
-//         res.status(201).json({ userId: user._id, username: user.username })
-//     })
-// })
 
 // this expires only the cookie on the client side, not the jwt
 // if jwt is required to be removed, perhaps tamper it

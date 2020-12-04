@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const auth = require('./auth.js')
 
-mongoose.connect('mongodb://localhost:27017/progresser', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/progresser', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
 app.use(methodOverride('X-HTTP-Method-Override'))
 app.use(bodyParser.urlencoded({ extended: true }))

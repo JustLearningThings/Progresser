@@ -86,31 +86,48 @@ class Skill {
         })
     }
 
-    static readAll(req, res, next) {
-        Skills.find({}, (err, skills) => {
-            if (err) return res.status(409).json({ message: 'Conflict: cannot get all skills' })
+    static async readAll(req, res, next) {
+        const { accessToken } = req.cookies
 
-            return res.json(skills)
+        if (!accessToken) return res.status(400).json({ message: 'Bad Request: missing access token' })
+
+        const userId = await jwt.decode(accessToken).sub
+
+        User.findById(userId, (err, user) => {
+            if (err) return res.status(409).json({ message: 'Conflict: cannot find user' })
+            if (!user || !user.skills) return res.status(409).json({ message: 'Conflict: user doesn\'t have skills' })
+        
+            Skills.find({ _id: { $in: user.skills } }, (err, skills) => {
+                if (err) return res.status(409).json({ message: 'Conflict: cannot get all skills' })
+
+                return res.json(skills)
+            })
         })
     }
 
-    // perhaps should check if the desired skills is in
-    // the skill list of the authenticated user (through JWT's user id from payload)
-    static read(req, res, next) {
+    static async read(req, res, next) {
         if (!req.params.id) return res.status(400).json({ message: 'Bad Request: missing query parameter' })
 
         const { accessToken } = req.cookies
 
         if (!accessToken) return res.status(400).json({ message: 'Bad Request: missing access token' })
 
+        const userId = await jwt.decode(accessToken).sub
+
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter.Errors:  ${errors}` })
 
-        Skills.findById(req.params.id, (err, skill) => {
-            if (err) return res.status(409).json({ message: 'Conflict: cannot find skill' })
+        User.findById(userId, (err, user) => {
+            if (err) return res.status(409).json({ message: 'Conflict: cannot find user' })
+            if (!user || !user.skills) return res.status(409).json({ message: 'Conflict: user doesn\'t have skills' })
+            if ((user.skills.find(skill => skill._id == req.params.id)).length === 0) return res.status(409).json({ message: 'Conflict user doesn\'t have this skill' })
+        
+            Skills.findById(req.params.id, (err, skill) => {
+                if (err) return res.status(409).json({ message: 'Conflict: cannot find skill' })
 
-            return res.json(skill)
+                return res.json(skill)
+            })
         })
     }
 
@@ -257,7 +274,7 @@ class Plan {
 
         User.findById(userId, (err, user) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find user' })
-            if (!user || !user.plans) return res.status(409).json({ message: 'Conflict: user doesnt have plans' })
+            if (!user || !user.plans) return res.status(409).json({ message: 'Conflict: user doesn\'t have plans' })
 
             Plans.find({ _id: { $in: user.plans } }, (err, plans) => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot get all plans' })
@@ -288,8 +305,8 @@ class Plan {
 
         User.findById(userId, (err, user) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find user' })
-            if (!user || !user.plans) return res.status(409).json({ message: 'Conflict: user doesnt have plans' })
-            if ((user.plans.find(plan => plan._id == req.params.id)).length === 0) return res.status(409).json({ message: 'Conflict user doenst have this skill' })
+            if (!user || !user.plans) return res.status(409).json({ message: 'Conflict: user doesn\t have plans' })
+            if ((user.plans.find(plan => plan._id == req.params.id)).length === 0) return res.status(409).json({ message: 'Conflict user doesn\'t have this plan' })
 
             Plans.findById(req.params.id, (err, plan) => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot find plan' })

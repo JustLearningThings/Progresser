@@ -22,13 +22,12 @@ export default function PlansList() {
                             <DashboardPlan
                                 key={plan._id}
                                 title={plan.name}
-                                xp={plan.xp}
-                                requiredXp={plan.requiredXp}
+                                progress={plan.progress}
                                 description={plan.description}
                                 id={plan._id}
 
                                 level={plan.level}
-                                actions={plan.actions}
+                                tasks={plan.tasks}
                                 date={plan.date}
                             />
                         ))
@@ -44,9 +43,6 @@ export default function PlansList() {
     return (
         <div id='plans'>
             {plans}
-            {/* added this condition so that the add button won't load without the plans
-            as it looks bad */}
-            {/* {(plans && plans.length > 0) ? <AddButton element='plan' /> : ''} */}
             <AddButton element='plan' />
         </div>
     )

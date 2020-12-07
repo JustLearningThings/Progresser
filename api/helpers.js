@@ -282,12 +282,6 @@ class Plan {
                 return res.json(plans)
             })
         })
-
-        // Plans.find({}, (err, plans) => {
-        //     if (err) return res.status(409).json({ message: 'Conflict: cannot get all plans' })
-
-        //     return res.json(plans)
-        // })
     }
 
     static async read(req, res, next) {
@@ -443,10 +437,38 @@ class Badge {
     }
 }
 
-// update read and readAll on Skill object
+class UserController {
+    static async read(req, res, next) {
+        const { accessToken } = req.cookies
+
+        if (!accessToken) return res.status(400).json({ message: 'Bad Request: missing access token' })
+
+        const userId = await jwt.decode(accessToken).sub
+
+        User.findById(userId)
+        .populate([
+            { path: 'skills' },
+            { path: 'plans' }
+        ])
+        .exec((err, foundUser) => {
+            if (err || !foundUser) return res.status(409).json({ message: 'Conflict: cannot find user' })
+
+            const user = foundUser.toObject()
+
+            delete user.refresh
+            delete user.password
+            delete user._id
+            delete user.__v
+
+            res.json(user)
+        })
+    }
+}
+
 // remove badge model 
 module.exports = {
     Skill,
     Plan,
-    Badge
+    Badge,
+    UserController
 }

@@ -12,14 +12,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    skills: {
-        type: Array,
+    skills: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Skill',
         default: []
-    },
-    plans: {
-        type: Array,
+    }],
+    plans: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan',
         default: []
-    },
+    }],
     badges: {
         type: Array,
         default: []

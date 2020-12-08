@@ -7,13 +7,13 @@ import {
 } from 'react-router-dom'
 
 import Loading from '../Loading'
+import Popup from '../popup'
 
 import AuthContext from '../../auth/authContext'
 import DashboardNav from './DashboardNav'
 import DashboardUpperNav from './DashboardUpperNav'
 
 import './Dashboard.css'
-// import PlanForm from './plan/PlanForm'
 
 // merge skills and plans styles into one file 
 
@@ -23,11 +23,13 @@ const SkillForm = React.lazy(() => import('./skill/SkillForm'))
 const PlansList = React.lazy(() => import('./plan/PlansList'))
 const PlanController = React.lazy(() => import('./plan/PlanController'))
 const PlanForm = React.lazy(() => import('./plan/PlanForm'))
+const BadgesList = React.lazy(() => import('./badge/BadgesList'))
 
 export default function Dashboard() {
     const history = useHistory()
 
     let [skills, setSkills] = useState([])
+    let [showPopup, setShowPopup] = useState(false)
 
     let upperNav = window.innerWidth > 991
         ? <DashboardUpperNav /> : ''
@@ -49,7 +51,8 @@ export default function Dashboard() {
             <DashboardNav isSmallViewport={isSmallViewport} />
             {/* <DashboardUpperNav /> */}{upperNav}
             <div id='skills-container'>
-                <h1 id='dashboard-title'>Dashboard</h1>
+                <h1 id='dashboard-title' onClick={() => setShowPopup(true)}>Dashboard</h1>
+
                     <Switch>
                         <Route exact path='/dashboard/skills'>
                             <SkillsList />
@@ -66,7 +69,6 @@ export default function Dashboard() {
 
                         <Route exact path='/dashboard/plans'>
                             <PlansList />
-                            {/* <h1 style={{ textAlign: 'center' }}>PLANS COMING SOON</h1> */}
                         </Route>
                         <Route exact path='/dashboard/plans/add'>
                             <PlanForm method='POST' />
@@ -79,7 +81,7 @@ export default function Dashboard() {
                         </Route>
 
                         <Route exact path='/dashboard/badges'>
-                            <h1 style={{ textAlign: 'center' }}>BADGES COMING SOON</h1>
+                            <BadgesList />
                         </Route>
                     </Switch>
             </div>

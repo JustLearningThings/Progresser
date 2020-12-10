@@ -25,6 +25,8 @@ export default function BadgesList() {
                             description={badge.description}
                             src={badge.base64}
                             tier={badge.tier}
+                            quote={badge.quote}
+                            quoteAuthor={badge.quoteAuthor}
                         />
                     )
                 })

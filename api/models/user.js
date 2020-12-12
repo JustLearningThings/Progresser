@@ -26,10 +26,19 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    points: {
-        type: Number,
-        default: 0,
-        required: true
+    stats: {
+        points: { type: Number, default: 0, required: true },
+        earnedBadges: { type: Number, default: 0, required: true },
+        plans: {
+            completed: { type: Number, default: 0, required: true },
+            completedTasks: { type: Number, default: 0, required: true },
+            created: { type: Number, default: 0, required: true }
+        },
+        skills: {
+            completedLevels: { type: Number, default: 0, required: true },
+            earnedXp: { type: Number, default: 0, required: true },
+            created: { type: Number, default: 0, required: true }
+        }
     },
     refresh: {
         type: String,

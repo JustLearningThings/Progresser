@@ -12,6 +12,8 @@ require('dotenv').config()
 
 // using classes with static methods as a means to organize code
 class Skill {
+    static pointsPerCreatedSkills = 2
+
     static validators = {
         create: [
             body('name').escape().trim().matches(/[a-zA-Z0-9\s]+/).not().isEmpty(),
@@ -51,7 +53,6 @@ class Skill {
             description: '',
             level: 1,
             xp: 0,
-            // levels: req.body.levels,
             requiredXp: 10,
             actions: []
         }
@@ -64,24 +65,29 @@ class Skill {
             model.actions.forEach(action => action.value = Number(action.value))
         }
         // may need to validate actions
-        // if (req.body.actions) model.actions = req.body.actions
 
         // create the skill
         Skills.create(model, (err, skill) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot create skill document' })
 
             // then add the actions to the skill
-            // Skills.updateOne({ _id: skill._id }, { $push: { actions: { $each: req.body.actions } } }, err => {
             Skills.updateOne({ _id: skill._id }, { actions: model.actions }, err => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update skill document with actions' })
 
                 // then populate the user skills filed with the newly created skill
-                // req.user._id , hmmm...
-                User.updateOne({ _id: userId }, { $push: { skills: skill._id } }, { new: true }, (err, updatedSkill) => {
-                    if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with skill' })
+                User.updateOne({ _id: userId }, {
+                        $push: { skills: skill._id },
+                        $inc: {
+                            'stats.skills.created': 1,
+                            'stats.points': this.pointsPerCreatedSkills
+                        }
+                    },
+                    { new: true },
+                    (err, updatedSkill) => {
+                        if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with skill' })
 
-                    return res.status(201).json({ id: skill._id })
-                })
+                        return res.status(201).json({ id: skill._id })
+                    })
             })
         })
     }
@@ -139,6 +145,8 @@ class Skill {
 
         if (!accessToken) return res.status(401).json({ message: 'Bad Request: missing access token' })
 
+        const userId = await jwt.decode(accessToken).sub
+
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
@@ -147,29 +155,48 @@ class Skill {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find skill' })
 
             let update = req.body
+            let updateUser = {}
 
             if (update.value) update.value = Number(update.value)
 
             // if query asks to update xp or level, do this
             if (req.query.updateXp === 'true' && !req.query.updateLevel && req.body.value) {
                 // if not leveling up, just update the xp value
-                if (skill.requiredXp > skill.xp + req.body.value) update = { xp: skill.xp + req.body.value }
+                if (skill.requiredXp > skill.xp + req.body.value) {
+                    update = { xp: skill.xp + req.body.value }
+                    updateUser = { $inc: { 'stats.skills.earnedXp': req.body.value } }
+                }
                 // if leveling up, update the level, and add to that new level the difference of the xp
-                else update = {
-                    level: skill.level + 1,
-                    requiredXp: skill.requiredXp + process.env.SKILL_LEVELUP_MULTIPLIER * (skill.level + 1),
-                    xp: 0 + (skill.xp + req.body.value) - skill.requiredXp
+                else {
+                    update = {
+                        level: skill.level + 1,
+                        requiredXp: skill.requiredXp + process.env.SKILL_LEVELUP_MULTIPLIER * (skill.level + 1),
+                        xp: 0 + (skill.xp + req.body.value) - skill.requiredXp
+                    }
+
+                    updateUser = { $inc: {
+                        'stats.skills.earnedXp': req.body.value,
+                        'stats.skills.completedLevels': 1
+                    }}
                 }
             }
-            else if (req.query.updateLevel === 'true' && !req.query.updateXp) update = {
-                level: skill.level + 1,
-                requiredXp: skill.requiredXp + process.env.SKILL_LEVELUP_MULTIPLIER * (skill.level + 1)
+            else if (req.query.updateLevel === 'true' && !req.query.updateXp) {
+                update = {
+                    level: skill.level + 1,
+                    requiredXp: skill.requiredXp + process.env.SKILL_LEVELUP_MULTIPLIER * (skill.level + 1)
+                }
+
+                updateUser = { $inc: { 'stats.skills.completedLevels': 1 } }
             }
 
             Skills.findOneAndUpdate({ _id: req.params.id }, update, { new: true }, (err, updatedSkill) => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update skill' })
 
-                return res.json(updatedSkill)
+                User.findByIdAndUpdate(userId, updateUser ,err => {
+                    if (err) return res.status(409).json({ message: 'Conflict: cannot update user' })
+
+                    return res.json(updatedSkill)
+                })
             })
         })
     }
@@ -203,6 +230,8 @@ class Skill {
 }
 
 class Plan {
+    static pointsPerCreatedPlans = 2
+
     static validators = {
         create: [
             body('name').escape().trim().matches(/[a-zA-Z0-9\s]+/).not().isEmpty(),
@@ -256,11 +285,20 @@ class Plan {
             Plans.updateOne({ _id: plan._id }, { tasks: model.tasks }, err => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update plan document with tasks' })
 
-                User.updateOne({ _id: userId }, { $push: { plans: plan._id } }, { new: true }, (err, updatedPlan) => {
-                    if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with plan' })
+                User.updateOne({ _id: userId },
+                    {
+                        $push: { plans: plan._id },
+                        $inc: {
+                            'stats.plans.created': 1,
+                            'stats.points': this.pointsPerCreatedPlans
+                        }
+                    },
+                    { new: true },
+                    (err, updatedPlan) => {
+                        if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with plan' })
 
-                    return res.status(201).json({ id: plan._id })
-                })
+                        return res.status(201).json({ id: plan._id })
+                    })
             })
         })
     }
@@ -318,6 +356,8 @@ class Plan {
 
         if (!accessToken) return res.status(401).json({ message: 'Bad Request: missing access token' })
 
+        const userId = await jwt.decode(accessToken).sub
+
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
@@ -329,22 +369,35 @@ class Plan {
             update.completed = false
             update.progress = plan.progress
 
+            let updateUser = {}
+
             if (req.query.updateProgress && !plan.completed && update.completedTask) {
                 update.tasks = plan.tasks
                 update.tasks.forEach(async (task) => {
                     if (task.name == update.completedTask) {
                         task.completed = true
+                        updateUser = { $inc: { 'stats.plans.completedTasks': 1 } }
+
                         if (task.value + plan.progress >= 100) {
                             update.completed = true
                             update.progress = 100
+                            updateUser = { $inc: {
+                                'stats.plans.completed': 1,
+                                'stats.plans.completedTasks': 1
+                            }}
 
                             // create badge
-                            const userId = await jwt.decode(accessToken).sub
-
                             if (userId) {
-                                User.findById(userId, (err, user) => {
+                                User.findById(userId)
+                                .populate({ path: 'plans' })
+                                .exec((err, user) => {
+                                    if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
                                     if (user.plans.length === 1)
                                         Badge.createBadge('Strategist', userId)
+                                    else if (this.getCompletedTasksNumber(user) === 2) {
+                                        Badge.levelUpBadge('Strategist', userId)
+                                    }
                                 })
                             }
                         }
@@ -355,10 +408,14 @@ class Plan {
                 delete update.completedTask
             }
 
-            Plans.findOneAndUpdate({ _id: req.params.id }, update, { new: true }, (err, updatePlan) => {
+            Plans.findOneAndUpdate({ _id: req.params.id }, update, { new: true }, (err, updatedPlan) => {
                 if (err) return res.status(409).json({ message: 'Conflict: cannot update plan' })
 
-                return res.json(updatePlan)
+                User.updateOne({ _id: userId }, updateUser, err => {
+                    if (err) return res.status(409).json({ message: 'Conflict: cannot update user' })
+                        
+                    return res.json(updatedPlan)
+                })
             })
         })
     }
@@ -413,25 +470,33 @@ class Badge {
 
             const points = user.points + this.tiers[0].value
 
-            User.findByIdAndUpdate(userId, { $push: { badges: badge }, points }, err => err ? false : true)
+            User.findByIdAndUpdate(userId, {
+                $push: { badges: badge },
+                $inc: { 'stats.earnedBadges': 1 },
+                points
+            }, err => err ? false : true)
         })
     }
 
     static levelUpBadge(name, userId) {
-        let badge = user.badges.find(b => b.name === name)
+        let badge = badgeList.find(b => b.name === name)
 
         // if current tier is the last one, do nothing
-        if (badge.tier === tiers[tiers.length - 1]) return true
+        if (badge.tier === this.tiers[this.tiers.length - 1]) return true
         
         // update tier
-        const tierId = tiers.findIndex(t => t.name === badge.tier) + 1
-        badge.tier = tiers[tierId].name
+        const tierId = this.tiers.findIndex(t => t.name === badge.tier) + 1
+        badge.tier = this.tiers[tierId].name
 
         User.findById(userId, (err, user) => {
             if (err) return false
 
+            const points = user.points + this.tiers[tierId].value
+
             User.updateOne({ _id: userId }, {
-                $push: { badges: badge }, points: user.points + tiers[tierId].value
+                $push: { badges: badge },
+                $inc: { 'stats.earnedBadges': 1 },
+                points
             }, err => err ? false : true)
         })
     }

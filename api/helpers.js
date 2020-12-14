@@ -393,9 +393,9 @@ class Plan {
                                 .exec((err, user) => {
                                     if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
 
-                                    if (user.plans.length === 1)
+                                    if (user.stats.plans.completed === 0)
                                         Badge.createBadge('Strategist', userId)
-                                    else if (this.getCompletedTasksNumber(user) === 2) {
+                                    else if ([2, 4, 6].includes(user.stats.plans.completed)) {
                                         Badge.levelUpBadge('Strategist', userId)
                                     }
                                 })
@@ -468,12 +468,12 @@ class Badge {
             // dont create the badge if the user already has it
             if (user.badges.find(b => b.name === name)) return false
 
-            const points = user.points + this.tiers[0].value
-
             User.findByIdAndUpdate(userId, {
                 $push: { badges: badge },
-                $inc: { 'stats.earnedBadges': 1 },
-                points
+                $inc: {
+                    'stats.earnedBadges': 1,
+                    'stats.points': this.tiers[0].value
+                }
             }, err => err ? false : true)
         })
     }
@@ -483,7 +483,7 @@ class Badge {
 
         // if current tier is the last one, do nothing
         if (badge.tier === this.tiers[this.tiers.length - 1]) return true
-        
+      
         // update tier
         const tierId = this.tiers.findIndex(t => t.name === badge.tier) + 1
         badge.tier = this.tiers[tierId].name
@@ -491,13 +491,19 @@ class Badge {
         User.findById(userId, (err, user) => {
             if (err) return false
 
-            const points = user.points + this.tiers[tierId].value
+            const badgeIdx = user.badges.findIndex(b => b.name === name)
 
-            User.updateOne({ _id: userId }, {
-                $push: { badges: badge },
-                $inc: { 'stats.earnedBadges': 1 },
-                points
-            }, err => err ? false : true)
+            const update = {
+                '$inc': {
+                    'stats.earnedBadges': 1,
+                    'stats.points': this.tiers[tierId].value
+                },
+                '$set': {}
+            }
+
+            update['$set'][`badges.${badgeIdx}.tier`] = badge.tier
+
+            User.updateOne({ _id: userId, 'badges.name': name}, update , err => err ? false : true)
         })
     }
 }

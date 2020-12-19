@@ -6,7 +6,10 @@ import './PlanController.css'
 import AuthContext from '../../../auth/authContext'
 import { authFetch } from '../../../auth/auth'
 
+import Popup, { PopupNotificationContext } from '../../popup'
+
 export default function PlanController() {
+    let popupContext = useContext(PopupNotificationContext)
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
@@ -17,7 +20,7 @@ export default function PlanController() {
         progress: 0,
         description: '',
         tasks: [],
-        date: Date.now()
+        date: Date.now(),
     })
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export default function PlanController() {
                         progress: res.progress,
                         description: res.description,
                         tasks: res.tasks,
-                        date: res.date
+                        date: res.date,
                     })
                 })
                 .catch(err => console.error(err))
@@ -52,12 +55,22 @@ export default function PlanController() {
         authFetch(`/api/plans/${id}?updateProgress=true`, options, history, authContext.changeUser, res => {
             res.json()
                 .then(res => {
+                    // if by the end of this function, this object is not empty
+                    // then a badge was earned/updated and a notification should be shown
+                    const badge = {}
+
+                    if (res.badge) {
+                        badge.name = res.badge.name
+                        badge.state = res.badge.state
+                    }
+
                     setPlan({
-                        title: res.name,
-                        progress: res.progress,
-                        description: res.description,
-                        tasks: res.tasks,
-                        date: res.date
+                        title: res.updatedPlan.name,
+                        progress: res.updatedPlan.progress,
+                        description: res.updatedPlan.description,
+                        tasks: res.updatedPlan.tasks,
+                        date: res.updatedPlan.date,
+                        badge
                     })
                 })
                 .catch(err => console.error(err))
@@ -88,6 +101,13 @@ export default function PlanController() {
 
     return (
         <div className='plan-controller'>
+
+            { /* if a badge was earned/updated then show the popup notification */ }
+            { plan.badge && Object.keys(plan.badge).length > 0 ? <Popup
+                showPopup={popupContext.setPopup}
+                text={`${plan.badge.state === 'updated' ? `${plan.badge.name} badge had just leveled up` : `You earned a new badge: ${plan.badge.name}`}`}
+                /> : '' }
+
             <h3>{plan.title}</h3>
             <div className='plan-controller-progress-bar-container'>
                 <div className='plan-controller-progress'>{plan.progress === 100 ? 'completed' : `${plan.progress.toFixed(2)}%`}</div>

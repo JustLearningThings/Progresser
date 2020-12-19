@@ -3,10 +3,10 @@ import './DashboardBadge.css'
 
 export default function DashboardBadge({ name, description, src, tier, quote, quoteAuthor }) {
     let ImageColorScheme = {
-        common: 'rgba(220, 20, 60, .5)',
-        rare: 'rgba(65, 105, 205, .5)',
+        common: 'rgba(220, 20, 60, .6)',
+        rare: 'rgba(65, 105, 205, .7)',
         honored: 'rgba(50, 205, 50, .5)',
-        legendary: 'rgba(255, 215, 0, .75)'
+        legendary: 'rgba(255, 215, 0, .6)'
     }
     
     tier = tier.toLowerCase()

@@ -1,10 +1,7 @@
-import { BrowserRouter as Router, Redirect, useHistory } from 'react-router-dom'
-
 function logout(history, authContext) {
     fetch('/auth/logout')
     .then(res => {
         if (res.ok) {
-            // ['access', 'user', 'username'].forEach(key => localStorage.removeItem(key))
             document.cookie = 'accessToken=; max-age=0; path=/;'
             localStorage.removeItem('userId')
             localStorage.removeItem('username')
@@ -48,32 +45,6 @@ async function authFetch(url, options, history, changeUser, cb) {
     })
     .catch(err => console.error(err))
 }
-
-// function authFetch(url, options, history, changeUser, cb) {
-//     fetch(url, options)
-//     .then(res => {
-//         // check response status
-//         // and try to silent refresh if getting 401/403
-//         if (res.ok) cb(res)
-//         else if (res.status == 401 || res.status == 403) {
-//             function cookieExists(name) { return document.cookie.includes(name) }
-            
-//             refresh(changeUser)
-//             // userid and username must be in localstorage when authenticated
-//             // when refresh fails, those are removed from localstorage
-//             // if (!localStorage.getItem('userId'))
-//             //     history.push('/login')
-//             // if (!cookieExists('accessToken'))
-//             //     history.push('/login')
-//             // else {
-//                 fetch(url, options)
-//                 .then(res => cb(res))
-//             // }
-//         }
-//         else throw new Error(`Error fetching at: ${url}`)
-//     })
-//     .catch(err => console.error(err))
-// }
 
 export { authFetch }
 export { logout }

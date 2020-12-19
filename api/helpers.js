@@ -362,6 +362,11 @@ class Plan {
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
 
+        // an object to store the data sent when everything works as expected
+        // it is used to sent additional data when a badge is created
+        // for the purpose to display a notification on the front-end
+        let responseObject = {}
+
         Plans.findById(req.params.id, (err, plan) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find plan' })
 
@@ -393,10 +398,13 @@ class Plan {
                                 .exec((err, user) => {
                                     if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
 
-                                    if (user.stats.plans.completed === 0)
+                                    if (user.stats.plans.completed === 0) {
                                         Badge.createBadge('Strategist', userId)
+                                        responseObject.badge = { name: 'Strategist', state: 'created' }
+                                    }
                                     else if ([2, 4, 6].includes(user.stats.plans.completed)) {
                                         Badge.levelUpBadge('Strategist', userId)
+                                        responseObject.badge = { name: 'Strategist', state: 'updated' }
                                     }
                                 })
                             }
@@ -413,8 +421,10 @@ class Plan {
 
                 User.updateOne({ _id: userId }, updateUser, err => {
                     if (err) return res.status(409).json({ message: 'Conflict: cannot update user' })
-                        
-                    return res.json(updatedPlan)
+                    
+                    responseObject = { ...responseObject, updatedPlan }
+
+                    return res.json(responseObject)
                 })
             })
         })

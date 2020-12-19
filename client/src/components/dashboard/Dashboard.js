@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 
 import Loading from '../Loading'
-import Popup from '../popup'
+import Popup, { PopupNotificationContext } from '../popup'
 
 import AuthContext from '../../auth/authContext'
 import DashboardNav from './DashboardNav'
@@ -29,7 +29,7 @@ export default function Dashboard() {
     const history = useHistory()
 
     let [skills, setSkills] = useState([])
-    let [showPopup, setShowPopup] = useState(false)
+    let [popup, setPopup] = useState({ show: false, text: ''})
 
     let upperNav = window.innerWidth > 991
         ? <DashboardUpperNav /> : ''
@@ -48,10 +48,13 @@ export default function Dashboard() {
 
     return (
         <div id='dashboard'>
-            <DashboardNav isSmallViewport={isSmallViewport} />
-            {/* <DashboardUpperNav /> */}{upperNav}
-            <div id='skills-container'>
-                <h1 id='dashboard-title' onClick={() => setShowPopup(true)}>Dashboard</h1>
+            <PopupNotificationContext.Provider value={{ setPopup }}>
+                { popup.show ? <Popup text={popup.text} showPopup={setPopup} /> : '' }
+
+                <DashboardNav isSmallViewport={isSmallViewport} />
+                {/* <DashboardUpperNav /> */}{upperNav}
+                <div id='skills-container'>
+                    <h1 id='dashboard-title' onClick={() => setPopup({ show: true, text: 'clicked on title'})}>Dashboard</h1>
 
                     <Switch>
                         <Route exact path='/dashboard/skills'>
@@ -84,7 +87,8 @@ export default function Dashboard() {
                             <BadgesList />
                         </Route>
                     </Switch>
-            </div>
+                </div>
+            </PopupNotificationContext.Provider>
         </div>
     )
 }

@@ -6,16 +6,13 @@ import './SkillController.css'
 import AuthContext from '../../../auth/authContext'
 import { authFetch } from '../../../auth/auth'
 
-// https://css-tricks.com/css3-progress-bars/
-
-// perhaps should fetch the necessary data from the server
-// and rerender to fetch again when updating
+import Popup, { PopupNotificationContext } from '../../popup'
 
 export default function SkillController() {
+    let popupContext = useContext(PopupNotificationContext)
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
-    // let { title, level, xp, requiredXp, description, actions, date, id } = location.state
     let { id } = location.state
     
     let [skill, setSkill] = useState({
@@ -62,14 +59,24 @@ export default function SkillController() {
         authFetch(`/api/skills/${id}?updateXp=true`, options, history, authContext.changeUser, res => {
             res.json()
             .then(res => {
+                // if by the end of this function, this object is not empty
+                // then a badge was earned/updated and a notification should be shown
+                const badge = {}
+
+                if (res.badge) {
+                    badge.name = res.badge.name
+                    badge.state = res.badge.state
+                }
+
                 setSkill({
-                    title: res.name,
-                    level: res.level,
-                    xp: res.xp,
-                    requiredXp: res.requiredXp,
-                    description: res.description,
-                    actions: res.actions,
-                    date: res.date
+                    title: res.updatedSkill.name,
+                    level: res.updatedSkill.level,
+                    xp: res.updatedSkill.xp,
+                    requiredXp: res.updatedSkill.requiredXp,
+                    description: res.updatedSkill.description,
+                    actions: res.updatedSkill.actions,
+                    date: res.updatedSkill.date,
+                    badge
                 })
             })
             .catch(err => console.error(err))
@@ -99,6 +106,12 @@ export default function SkillController() {
     if (!skill.title) return (<Loading />)
     return (
         <div className='skill-controller'>
+            { /* if a badge was earned/updated then show the popup notification */}
+            {skill.badge && Object.keys(skill.badge).length > 0 ? <Popup
+                showPopup={popupContext.setPopup}
+                text={`${skill.badge.state === 'updated' ? `${skill.badge.name} badge had just leveled up` : `You earned a new badge: ${skill.badge.name}`}`}
+            /> : ''}
+
             <h3>{skill.title}</h3>
             <div className='skill-controller-progress-bar-container'>
                 <div className='skill-controller-xp'>{skill.xp}</div>

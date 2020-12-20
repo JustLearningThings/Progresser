@@ -399,12 +399,12 @@ class Plan {
                                     if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
 
                                     if (user.stats.plans.completed === 0) {
-                                        Badge.createBadge('Strategist', userId)
-                                        responseObject.badge = { name: 'Strategist', state: 'created' }
+                                        Badge.createBadge('Strategian', userId)
+                                        responseObject.badge = { name: 'Strategian', state: 'created' }
                                     }
                                     else if ([2, 4, 6].includes(user.stats.plans.completed)) {
-                                        Badge.levelUpBadge('Strategist', userId)
-                                        responseObject.badge = { name: 'Strategist', state: 'updated' }
+                                        Badge.levelUpBadge('Strategian', `Complete ${user.stats.plans.completed + 1} plans`,userId)
+                                        responseObject.badge = { name: 'Strategian', state: 'updated' }
                                     }
                                 })
                             }
@@ -488,7 +488,7 @@ class Badge {
         })
     }
 
-    static levelUpBadge(name, userId) {
+    static levelUpBadge(name, description, userId) {
         let badge = badgeList.find(b => b.name === name)
 
         // if current tier is the last one, do nothing
@@ -512,6 +512,7 @@ class Badge {
             }
 
             update['$set'][`badges.${badgeIdx}.tier`] = badge.tier
+            if (description) update['$set'][`badges.${badgeIdx}.description`] = description
 
             User.updateOne({ _id: userId, 'badges.name': name}, update , err => err ? false : true)
         })

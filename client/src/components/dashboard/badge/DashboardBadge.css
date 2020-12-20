@@ -3,7 +3,7 @@
 }
 
 #badges {
-    row-gap: 3%;
+    row-gap: 7.5%;
     column-gap: 3%;
 }
 
@@ -77,7 +77,7 @@
 @media screen and (max-width: 768px) {
     #badges {
         justify-items: center;
-        row-gap: 7.5%;
+        row-gap: 5%;
     }
     .badge {
         width: 50%;

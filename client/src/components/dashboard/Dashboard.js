@@ -54,7 +54,7 @@ export default function Dashboard() {
                 <DashboardNav isSmallViewport={isSmallViewport} />
                 {/* <DashboardUpperNav /> */}{upperNav}
                 <div id='skills-container'>
-                    <h1 id='dashboard-title' onClick={() => setPopup({ show: true, text: 'clicked on title'})}>Dashboard</h1>
+                    <h1 id='dashboard-title'>Dashboard</h1>
 
                     <Switch>
                         <Route exact path='/dashboard/skills'>

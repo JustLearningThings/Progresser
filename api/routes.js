@@ -3,7 +3,7 @@ const router = express.Router()
 
 const auth = require('./auth.js')
 
-const { Skill, Plan, UserController } = require('./helpers')
+const { Skill, Plan, UserController } = require('./helpers/helpers')
 
 router.get('/all', auth.authroizeRequest, (req, res) => res.send('YOU\'RE A USER ^^'))
 router.get('/any', (req, res) => res.send('YOURE A VISITOR'))

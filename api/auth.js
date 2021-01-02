@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./models/user.js')
 
-const { Badge } = require('./helpers.js')
+const { Badge } = require('./helpers/helpers.js')
 
 require('dotenv').config()
 

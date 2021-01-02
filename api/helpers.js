@@ -18,7 +18,6 @@ class Skill {
         create: [
             body('name').escape().trim().matches(/[a-zA-Z0-9\s]+/).not().isEmpty(),
             body('description').escape().trim().matches(/^([a-zA-Z0-9\s]+|)$/),
-            // body('levels').escape().isNumeric().not().isEmpty()
         ],
         read: [ param('id').isMongoId() ],
         update: [
@@ -27,7 +26,6 @@ class Skill {
             query('updateLevel').isBoolean().optional().optional(),
             body('name').escape().trim().matches(/[a-zA-Z0-9\s]+/).not().isEmpty().optional(),
             body('description').escape().trim().matches(/[a-zA-Z0-9\s]+/).optional(),
-            // body('levels').escape().isNumeric().not().isEmpty().optional(),
             body('level').escape().isNumeric().optional(),
             body('xp').escape().isNumeric().optional(),
             body('requiredXp').escape().isNumeric().optional()
@@ -86,7 +84,28 @@ class Skill {
                     (err, updatedSkill) => {
                         if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with skill' })
 
-                        return res.status(201).json({ id: skill._id })
+                        // create badge
+                        let responseObject = {}
+
+                        if (userId) {
+                            User.findById(userId)
+                                .exec((err, user) => {
+                                    if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
+                                    if (user.stats.skills.created === 2) {
+                                        Badge.createBadge('Skillful', userId)
+                                        responseObject.badge = { name: 'Skillful', state: 'created' }
+                                    }
+                                    else if ([4, 6, 8].includes(user.stats.skills.created)) {
+                                        Badge.levelUpBadge('Skillful', `Create ${user.stats.skills.created} skills`, userId)
+                                        responseObject.badge = { name: 'Skillful', state: 'updated' }
+                                    }
+                                })
+                        }
+
+                        responseObject = { ...responseObject, id: skill._id }
+
+                        return res.status(201).json(responseObject)
                     })
             })
         })
@@ -151,6 +170,11 @@ class Skill {
 
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
 
+        // an object to store the data sent when everything works as expected
+        // it is used to send additional data when a badge is created
+        // for the purpose to display a notification on the front-end
+        let responseObject = {}
+
         Skills.findById(req.params.id, (err, skill) => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot find skill' })
 
@@ -165,6 +189,46 @@ class Skill {
                 if (skill.requiredXp > skill.xp + req.body.value) {
                     update = { xp: skill.xp + req.body.value }
                     updateUser = { $inc: { 'stats.skills.earnedXp': req.body.value } }
+
+                    // create badge
+                    if (userId) {
+                        User.findById(userId)
+                        .exec((err, user) => {
+                            if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
+                            // breakpoints indicating the range of xp needed for each badge tier
+                            let breakpoints = [50, 100, 200, 500]
+
+                            let badge = user.badges.find(b => b.name === 'Cultivated')
+
+                            if (badge == undefined
+                                && user.stats.skills.earnedXp >= breakpoints[0]
+                                && user.stats.skills.earnedXp < breakpoints[1]) {
+                                Badge.createBadge('Cultivated', userId)
+                                responseObject.badge = { name: 'Cultivated', state: 'created' }
+                            }
+                            else if (badge
+                                    && badge.tier === 'Common'
+                                    && user.stats.skills.earnedXp >= breakpoints[1]
+                                    && user.stats.skills.earnedXp < breakpoints[2]) {
+                                Badge.levelUpBadge('Cultivated', `Earn ${breakpoints[1]} skill xp`, userId)
+                                responseObject.badge = { name: 'Cultivated', state: 'updated' }
+                            }
+                            else if (badge
+                                    && badge.tier === 'Rare'
+                                    && user.stats.skills.earnedXp >= breakpoints[2]
+                                    && user.stats.skills.earnedXp < breakpoints[3]) {
+                                Badge.levelUpBadge('Cultivated', `Earn ${breakpoints[2]} skill xp`, userId)
+                                responseObject.badge = { name: 'Cultivated', state: 'updated' }
+                            }
+                            else if (badge
+                                    && badge.tier === 'Honored'
+                                    && user.stats.skills.earnedXp >= breakpoints[3]) {
+                                Badge.levelUpBadge('Cultivated', `Earn ${breakpoints[3]} skill xp`, userId)
+                                responseObject.badge = { name: 'Cultivated', state: 'updated' }
+                            }
+                        })
+                    }
                 }
                 // if leveling up, update the level, and add to that new level the difference of the xp
                 else {
@@ -178,6 +242,23 @@ class Skill {
                         'stats.skills.earnedXp': req.body.value,
                         'stats.skills.completedLevels': 1
                     }}
+
+                    // create badge
+                    if (userId) {
+                        User.findById(userId)
+                        .exec((err, user) => {
+                            if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
+                            if (user.stats.skills.completedLevels === 2) {
+                                Badge.createBadge('Practitioner', userId)
+                                responseObject.badge = { name: 'Practitioner', state: 'created' }
+                            }
+                            else if ([4, 9, 14].includes(user.stats.skills.completedLevels)) {
+                                Badge.levelUpBadge('Practitioner', `Complete ${user.stats.skills.completedLevels + 1} skill levels`, userId)
+                                responseObject.badge = { name: 'Practitioner', state: 'updated' }
+                            }
+                        })
+                    }
                 }
             }
             else if (req.query.updateLevel === 'true' && !req.query.updateXp) {
@@ -187,6 +268,23 @@ class Skill {
                 }
 
                 updateUser = { $inc: { 'stats.skills.completedLevels': 1 } }
+
+                // create badge
+                if (userId) {
+                    User.findById(userId)
+                        .exec((err, user) => {
+                            if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
+                            if (user.stats.skills.completedLevels === 2) {
+                                Badge.createBadge('Practitioner', userId)
+                                responseObject.badge = { name: 'Practitioner', state: 'created' }
+                            }
+                            else if ([4, 9, 14].includes(user.stats.skills.completedLevels)) {
+                                Badge.levelUpBadge('Practitioner', `Complete ${user.stats.skills.completedLevels + 1} skill levels`, userId)
+                                responseObject.badge = { name: 'Practitioner', state: 'updated' }
+                            }
+                        })
+                }
             }
 
             Skills.findOneAndUpdate({ _id: req.params.id }, update, { new: true }, (err, updatedSkill) => {
@@ -195,7 +293,9 @@ class Skill {
                 User.findByIdAndUpdate(userId, updateUser ,err => {
                     if (err) return res.status(409).json({ message: 'Conflict: cannot update user' })
 
-                    return res.json(updatedSkill)
+                    responseObject = { ...responseObject, updatedSkill }
+
+                    return res.json(responseObject)
                 })
             })
         })
@@ -297,7 +397,28 @@ class Plan {
                     (err, updatedPlan) => {
                         if (err) return res.status(409).json({ message: 'Conflict: cannot populate user with plan' })
 
-                        return res.status(201).json({ id: plan._id })
+                        // create badge
+                        let responseObject = {}
+
+                        if (userId) {
+                            User.findById(userId)
+                                .exec((err, user) => {
+                                    if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
+
+                                    if (user.stats.plans.created === 2) {
+                                        Badge.createBadge('Modelling', userId)
+                                        responseObject.badge = { name: 'Modelling', state: 'created' }
+                                    }
+                                    else if ([4, 6, 8].includes(user.stats.plans.created)) {
+                                        Badge.levelUpBadge('Modelling', `Create ${user.stats.plans.created} plans`, userId)
+                                        responseObject.badge = { name: 'Modelling', state: 'updated' }
+                                    }
+                                })
+                        }
+
+                        responseObject = { ...responseObject, id: plan._id }
+
+                        return res.status(201).json(responseObject)
                     })
             })
         })
@@ -363,7 +484,7 @@ class Plan {
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
 
         // an object to store the data sent when everything works as expected
-        // it is used to sent additional data when a badge is created
+        // it is used to send additional data when a badge is created
         // for the purpose to display a notification on the front-end
         let responseObject = {}
 
@@ -394,7 +515,6 @@ class Plan {
                             // create badge
                             if (userId) {
                                 User.findById(userId)
-                                .populate({ path: 'plans' })
                                 .exec((err, user) => {
                                     if (err) return res.status(409).json({ message: 'Conflict: cannot create user badge' })
 
@@ -494,11 +614,12 @@ class Badge {
         // if current tier is the last one, do nothing
         if (badge.tier === this.tiers[this.tiers.length - 1]) return true
       
+        console.log(badge.name, badge.tier)
         // update tier
         const tierId = this.tiers.findIndex(t => t.name === badge.tier) + 1
         badge.tier = this.tiers[tierId].name
 
-        User.findById(userId, (err, user) => {
+        User.findById(userId, async (err, user) => {
             if (err) return false
 
             const badgeIdx = user.badges.findIndex(b => b.name === name)

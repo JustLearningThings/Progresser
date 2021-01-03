@@ -93,7 +93,7 @@ export default function PlanForm({ method }) {
             res.json()
                 .then(res => {
                     // assign id based on the API response (POST and PUT respond with different data)
-                    let id = method === 'POST' ? res.id : res._id
+                    let id = method === 'POST' ? res.id : res.updatedPlan._id
 
                     history.push(`/dashboard/plans/${id}`, { id })
                 })

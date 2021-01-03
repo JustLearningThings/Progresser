@@ -74,7 +74,7 @@ export default function SkillForm({ method }) {
         let data = form
 
         for (let name in data) {
-            if (name !== 'actions' && name !== 'formActions')
+            if (data[name] && name !== 'actions' && name !== 'formActions')
                 urlEncodedPairs.push(`${encodeURIComponent(name)}=${encodeURIComponent(data[name])}`)
         }
 
@@ -95,7 +95,7 @@ export default function SkillForm({ method }) {
             res.json()
             .then(res => {
                 // assign id based on the API response (POST and PUT respond with different data)
-                let id = method === 'POST' ? res.id : res._id
+                let id = method === 'POST' ? res.id : res.updatedSkill._id
 
                 history.push(`/dashboard/skills/${id}`, { id })
             })

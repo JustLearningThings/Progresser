@@ -235,6 +235,9 @@ class Skill {
                         xp: 0 + (skill.xp + req.body.value) - skill.requiredXp
                     }
 
+                    // if request xp value is too high, then penalise to user to just leveling up with a start of 0 xp
+                    if (update.xp > update.requiredXp) update.xp = 0
+
                     updateUser = {
                         $inc: {
                             'stats.skills.earnedXp': req.body.value,

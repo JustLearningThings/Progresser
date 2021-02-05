@@ -6,7 +6,7 @@ import './AddButton.css'
 // element prop denotes the element to add (skill, plan)
 export default function AddButton({ element }) {
     return (
-        <Link to={`/dashboard/${element}s/add`}>
+        <Link id='dashboard-add-button-container' to={`/dashboard/${element}s/add`}>
             <button id='dashboard-add-button'></button>
         </Link>
     )

@@ -36,3 +36,7 @@
 #dashboard-add-button:hover {
     transform: scale(1.05);
 }
+
+#dashboard-add-button-container {
+    justify-self: center;
+}

@@ -1,31 +1,251 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mate&family=Pacifico&family=Tomorrow:wght@300;400&display=swap');
+
+/* utility classes */
+body.light {
+    --primaryColor: white;
+    --secondaryColor: #f7f7f7;
+    --tertiaryColor: #E7F0F0;
+    --quaternaryColor: #E4E4E4;
+    --text-color: rgb(31, 28, 32);
+    --text-color-alternative: rgba(277, 277, 277, .9);
+    --card-color: #E1DFAD;
+    --progress-bar-inner-color: #628092;
+}
+
+body.dark {
+    --primaryColor: #030120;
+    --secondaryColor: #0F0D28;
+    --tertiaryColor: #120F37;
+    --quaternaryColor: #1B1840;
+    --text-color: rgba(277, 277, 277, .9);
+    --text-color-alternative: rgb(31, 28, 32);
+    --card-color: #cca54e;
+    --progress-bar-inner-color: #7347ba;
+}
+
+a { cursor: pointer; }
+
+a:hover { opacity: .75; }
 
 #dashboard {
     min-height: 100vh;
-    font-family: 'Raleway', sans-serif;
-}
-
-#dashboard-title {
-    text-align: center;
-    margin-top: 12vh;
-    font-size: 2.25rem;
-    font-weight: lighter;
+    font-family: 'Mate', sans-serif;
+    background-color: var(--primaryColor);
+    color: var(--text-color);
 }
 
 #skills, #plans, #badges {
     width: 92.5%;
     margin: 3vw;
+    padding: 2% 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 10%;
     align-items: center;
 }
 
-#skills-container {
-    margin-left: 22vw;
+.skill, .plan {
+    color: var(--text-color);
+    background-color: var(--card-color);
+    max-width: 300px;
 }
 
+.skill .skill-title, .skill .skill-description, .plan .plan-title, .plan .plan-description {
+    word-break: break-all;
+}
+
+
+#left-nav {
+    width: 7.5vw;
+    min-width: 75px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    overflow: auto;
+}
+
+#left-nav a {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30% auto;
+    color: var(--text-color);
+    box-sizing: border-box;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+
+#left-nav #logo {
+    margin: 5% auto 20% auto;
+}
+
+#left-nav a svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--text-color);
+}
+
+#logo h1 {
+    font-size: 2.25rem;
+    margin: 0 auto;
+    color: #54E563;
+    font-family: 'Pacifico', sans-serif;
+    text-shadow: 2px 2px 2px #65A66C;
+    transition: text-shadow .25s ease;
+}
+
+#logo h1:hover { text-shadow: 4px 4px 4px #65A66C; }
+
+#left-nav .nav-link h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+#right-dashboard {
+    margin-left: 7.5vw;
+}
+
+#upper-nav {
+    width: 100%;
+    height: 7vh;
+    min-height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#upper-nav div {
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    min-width: 200px;
+    max-width: 300px;
+    font-size: .95rem;
+}
+
+#upper-nav a { color: var(--text-color); }
+
+main {
+    background-color: var(--secondaryColor);
+    width: 99%;
+    min-height: 91.5vh;
+    border-radius: 15px;
+}
+
+main .main-overflow-hidden {
+    width: 100%;
+    min-height: 91.5vh;
+    overflow: hidden;
+}
+
+#default-content {
+    margin: 0 auto;
+    width: 100%;
+    height: 91.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .9rem;
+    opacity: .8;
+    position: relative;
+}
+
+#default-content p {
+    width: 75%;
+    font-style: italic;
+    text-align: center;
+}
+
+
+#mobile-nav {
+    padding: 0 10% 0 10%;
+    width: 100vw;
+    height: 10vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-nav-with-clicked-hamburger {
+    background-color: #1B1840;
+}
+
+.mobile-nav-with-clicked-hamburger #hamburger div {
+    background-color: white;
+}
+
+#hamburger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 12.5%;
+    height: 40%;
+}
+
+#hamburger div {
+    width: 100%;
+    height: 10%;
+    border-radius: 5px;
+    background-color: var(--text-color);
+}
+
+#mobile-nav #nav-links {
+    width: 100vw;
+    height: 0;
+    background-color: #1B1840;
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    animation: nav-links-appear .5s ease forwards;
+}
+
+@keyframes nav-links-appear {
+    from { height: 0; }
+    to { height: 90vh; }
+}
+
+#mobile-nav #nav-links a { color: white; }
+
+
+.main-title {
+    position: absolute;
+    top: -7vh;
+    left: 5%;
+    font-weight: normal;
+}
+
+
 @media screen and (max-width: 991px) {
+    #left-nav a img {
+        width: 24px;
+        height: 24px;
+    }
+    #left-nav .nav-link h3 {
+        font-size: .9rem;
+    }
+    #logo h1 {
+        font-size: 2rem;
+    }
+    #right-dashboard {
+        margin-left: 75px;
+    }
+    #upper-nav div {
+        font-size: .9rem;
+    }
+
     #skills {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -34,8 +254,41 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
+    #mobile-nav #logo h1 {
+        font-size: 1.75rem;
+    }
+    #right-dashboard {
+        margin: 0;
+    }
+    main {
+        width: 100%;
+        border-radius: 0;
+    }
+    .main-title {
+        top: 0;
+        font-size: 1.25rem;
+    }
+
     #skills, #plans, #badges {
         grid-template-columns: repeat(1, 1fr);
     }
+}
+
+@media screen and (max-height: 624px) {
+    #logo h1 { font-size: 1.5rem; }
+    #left-nav .nav-link h3 {
+        font-size: .7rem;
+        margin: 0;
+        margin-top: 5px;
+    }
+    #left-nav .nav-link svg {
+        width: 24px;
+        height: 24px;
+    }
+    .main-title {
+        top: 0;
+        font-size: 1.1rem;
+    }
+    #upper-nav a { font-size: .75rem; }
 }

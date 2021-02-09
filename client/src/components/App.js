@@ -14,6 +14,7 @@ import './App.css';
 // dynamic imports (code-splitting) may be a performance patch
 const Dashboard = React.lazy(() => import('./dashboard/Dashboard'))
 const FormPage = React.lazy(() => import('./form/FormPage'))
+const Landing = React.lazy(() => import('./Landing'))
 
 // const Loading = React.lazy(() => import('./Loading.js'))
 // const Loading = () => (<div className='loading'></div>)
@@ -90,11 +91,9 @@ export default class App extends Component {
                 </Suspense>
               </ProtectedRoute>
               <Route exact path='/'>
-                <div id="landing" style={{textAlign: 'center'}}>
-                  <h1>Landing page</h1>
-                  <p>Comming soon...</p>
-                  <p><Link style={{textDecoration: 'underline'}} to='/dashboard'>Dashboard</Link> available</p>
-                </div>
+                <Suspense fallback={<Loading />}>
+                  <Landing />
+                </Suspense>
               </Route>
             </AuthContext.Provider>
           </Switch>

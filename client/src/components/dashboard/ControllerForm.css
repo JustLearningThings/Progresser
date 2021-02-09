@@ -1,0 +1,164 @@
+#skill-form-container, #plan-form-container, #skill-form, #plan-form {
+    width: 100%;
+    height: 100%;
+}
+
+#skill-form-container, #plan-form-container {
+    position: relative;
+}
+
+#actions .skill-form-action:hover, #tasks .plan-form-task:hover { opacity: 1; }
+
+#skill-form input, #skill-form textarea, #plan-form input, #plan-form textarea {
+    border: none;
+    border-radius: 10px;
+    background-color: var(--tertiaryColor);
+    color: var(--textColor);
+    padding: 2%;
+}
+
+#skill-form input:hover, #skill-form textarea:hover, #plan-form input:hover, #plan-form textarea:hover {
+    opacity: .75;
+}
+
+#skill-form textarea, #plan-form textarea {
+    resize: none;
+}
+
+#skill-form label, #plan-form label {
+    font-size: 1.15rem;
+}
+
+#skill-form #skill-controller-left, #plan-form #plan-controller-left, #skill-form #actions, #plan-form #tasks {
+    margin-top: 27.5px;
+}
+
+#skill-form-input, #plan-form-inputs {
+    min-height: 200px;
+}
+
+#skill-controller-left, #plan-controller-left {
+    min-height: 150px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 3%;
+    box-sizing: border-box;
+}
+
+#name-input-container, #description-input-container {
+    display: flex;
+    align-items: center;
+}
+
+#name-input-container label {
+    margin-right: calc(2% + 45px);
+}
+
+#description-input-container label {
+    margin-right: 2%;
+}
+
+#name-input-container input, #description-input-container textarea {
+    padding: 1.5% 2%;
+}
+
+#name-input-container input {
+    min-height: 25px;
+}
+
+#description-input-container textarea {
+    min-height: 50px;
+    min-width: 250px;
+    width: 50%;
+}
+
+#skill-form .skill-form-action, #plan-form .plan-form-task {
+    /* background: none; */
+    cursor: initial;
+}
+
+#plan-form .plan-form-task {
+    background: none;
+}
+
+.skill-form-action-name-container, .plan-form-task-name-container {
+    width: 80%;
+}
+
+#skill-form .skill-form-action label, #plan-form .plan-form-task label {
+    font-size: 1rem;
+    margin-right: 5%;
+}
+
+#skill-form .skill-form-action-name #skill-form .skill-form-action-value, #plan-form .plan-form-task-name {
+    /* background-color: var(--tertiaryColor); */
+    min-height: 20px;
+    padding: 2%;
+}
+
+#plan-form .plan-form-task-name {
+    background-color: var(--tertiaryColor);
+}
+
+.skill-form-action-remove, .plan-form-task-remove {
+    cursor: pointer;
+    width: #F13E3E;
+    width: 10%;
+}
+
+#submit-button-container {
+    width: 100%;
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+}
+
+#submit-button-container button {
+    cursor: pointer;
+    padding: 10px 12.5px;
+    border: 2px solid #25b02a;
+    border-radius: 10px;
+    background: none;
+    color: var(--textColor);
+    font-size: .8rem;
+    font-family: 'Tomorrow', sans-serif;
+    letter-spacing: .05rem;
+    transition: background .2s ease;
+}
+
+#submit-button-container button:hover, #submit-button-container button:focus {
+    color: var(--text-color-alternative);
+    background-color: #25b02a;
+    outline: none;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
+}
+
+@media screen and (max-width: 768px) {
+    #name-input-container, #description-input-container {
+        box-sizing: border-box;
+        padding-left: 5%;
+    }
+    #skill-form #skill-controller-left, #skill-form #actions, #plan-form #plan-controller-left, #plan-form #tasks {
+        margin-top: 50px;
+    }
+    #skill-form label, #plan-form label {
+        font-size: 1rem;
+    }
+    #actions, #tasks {
+        margin-bottom: 3vh;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #skill-form #skill-controller-left, #skill-form #actions, #plan-form #plan-controller-left, #plan-form #tasks {
+        margin-top: 80px;
+    }
+    #description-input-container textarea {
+        min-width: 50px;
+    }
+    #submit-button-container button {
+        font-size: .7rem;
+    }
+}

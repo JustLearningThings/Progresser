@@ -4,8 +4,10 @@ import { BrowserRouter, useHistory, useLocation } from 'react-router-dom'
 import AuthContext from '../../../auth/authContext'
 import { refresh, authFetch } from '../../../auth/auth'
 
-import './PlanController.css'
-import './PlanForm.css'
+// import './PlanController.css'
+import '../Controller.css'
+import '../ControllerForm.css'
+// import './PlanForm.css'
 
 export default function PlanForm({ method }) {
     let authContext = useContext(AuthContext)
@@ -126,39 +128,74 @@ export default function PlanForm({ method }) {
                 <li
                     key={i}
                     className='plan-form-task'>
-                    <div className='plan-form-task-container'>
+                    <div className='plan-form-task-name-container'>
+                        <label>Name</label>
                         <input className='plan-form-task-name' name='task-name' type='text' value={task.name} required onChange={e => handleChange(e, 'name', i)}></input>
-                        <span className='plan-form-task-remove' onClick={e => removeTask(i)}>&#10060;</span>
                     </div>
+                    <span className='plan-form-task-remove' onClick={() => removeTask(i)}>&#10060;</span>
                 </li>
             ))
         })
 
-    return (
-        <div className='plan-form'>
-            <h3>{method === 'PUT' ? 'Edit' : 'Add a'} plan</h3>
-            <div id='plan-form-input-name-container'>
-                <label htmlFor='plan-form-input-name'>Name</label>
-                <input id='plan-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
+        return (
+            <div id='plan-form-container'>
+                <h2 className='main-title'>{ method === 'PUT' ? 'Edit' : 'Add a' } plan</h2>
+                <form id='plan-form'>
+                    <div id='plan-form-inputs'>
+                        <div id='plan-controller-left'>
+                            <div id='name-input-container'>
+                                <label htmlFor='plan-form-input-name'>Name</label>
+                                <input id='plan-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
+                            </div>
+                            <div id='description-input-container'>
+                                <label htmlFor='plan-form-input-description'>Description</label>
+                                <textarea id='plan-form-input-description' name='description' value={form.description} onChange={e => handleChange(e, 'description')}></textarea>
+                            </div>
+                        </div>
+                        <div id='tasks'>
+                            {method === 'POST' ?
+                                <div>
+                                    <h3>Tasks</h3>
+                                    <ul>
+                                        {(tasksList && tasksList.length > 0) ? tasksList : ''}
+                                        <li id='plan-form-task-add' onClick={() => addTask()}>Add task</li>
+                                    </ul>
+                                </div>
+                                : ''}
+                        </div>
+                    </div>
+                    <div id='submit-button-container'>
+                        <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
+                    </div>
+                </form>
             </div>
-            <p className='plan-form-description'>
-                <label htmlFor='plan-form-input-description'>Description</label>
-                <textarea id='plan-form-input-description' name='description' value={form.description} required onChange={e => handleChange(e, 'description')}></textarea>
-            </p>
-            { method === 'POST' ?
-                <ul className='plan-form-tasks'>
-                    {(tasksList && tasksList.length > 0) ? tasksList : ''}
-                    <li id='plan-form-tasks-add' onClick={e => addTask()}>Add task</li>
-                </ul>
-                : ''
-            }
-            {date ? (
-                <span className='plan-form-date'>
-                    Started on {date}
-                </span>
-            ) : ''}
-            <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
-            <div style={{ clear: 'both' }}></div>
-        </div>
-    )
+        )
+
+    // return (
+    //     <div className='plan-form'>
+    //         <h3>{method === 'PUT' ? 'Edit' : 'Add a'} plan</h3>
+    //         <div id='plan-form-input-name-container'>
+    //             <label htmlFor='plan-form-input-name'>Name</label>
+    //             <input id='plan-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
+    //         </div>
+    //         <p className='plan-form-description'>
+    //             <label htmlFor='plan-form-input-description'>Description</label>
+    //             <textarea id='plan-form-input-description' name='description' value={form.description} required onChange={e => handleChange(e, 'description')}></textarea>
+    //         </p>
+    //         { method === 'POST' ?
+    //             <ul className='plan-form-tasks'>
+    //                 {(tasksList && tasksList.length > 0) ? tasksList : ''}
+    //                 <li id='plan-form-tasks-add' onClick={() => addTask()}>Add task</li>
+    //             </ul>
+    //             : ''
+    //         }
+    //         {date ? (
+    //             <span className='plan-form-date'>
+    //                 Started on {date}
+    //             </span>
+    //         ) : ''}
+    //         <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
+    //         <div style={{ clear: 'both' }}></div>
+    //     </div>
+    // )
 }

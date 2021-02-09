@@ -4,7 +4,9 @@ import { BrowserRouter, useHistory, useLocation } from 'react-router-dom'
 import AuthContext from '../../../auth/authContext'
 import { refresh, authFetch } from '../../../auth/auth'
 
-import './SkillController.css'
+// import './SkillController.css'
+import '../Controller.css'
+import '../ControllerForm.css'
 import './SkillForm.css'
 
 export default function SkillForm({ method }) {
@@ -121,6 +123,7 @@ export default function SkillForm({ method }) {
 
     // create actions DOM elements
     let actionsList = []
+    let actionMaxValue = 10 + (initialState.level - 1) * 10
 
     if (form.actions)
         form.actions.forEach((action, i) => {
@@ -128,51 +131,91 @@ export default function SkillForm({ method }) {
                 <li
                     key={i}
                     className='skill-form-action'>
-                    <div className='skill-form-action-container'>
-                        <input className='skill-form-action-name' name='action-name' type='text' value={action.name} required onChange={e => handleChange(e, 'name', i)}></input>
-                        <input className='skill-form-action-value' type='number' name='action-value' type='text' value={action.value} required onChange={e => handleChange(e, 'value', i)}></input>
+                    {/* <div className='skill-form-action-name-container'> */}
+                        <div className='skill-form-action-inputs-container'>
+                            <div className='skill-form-action-name-container'>
+                                <label>Name</label>
+                                <input className='skill-form-action-name' name='action-name' type='text' value={action.name} required onChange={e => handleChange(e, 'name', i)}></input>
+                            </div>
+                            <div className='skill-form-action-value-container'>
+                                <label>Value</label>
+                                <input className='skill-form-action-value' type='number' min='1' max={actionMaxValue} name='action-value' value={action.value} required onChange={e => handleChange(e, 'value', i)}></input>
+                            </div>
+                        </div>
                         <span className='skill-form-action-remove' onClick={e => removeAction(i)}>&#10060;</span>
-                    </div>
+                    {/* </div> */}
                 </li>
             ))
         })
 
-    return (
-        <div className='skill-form'>
-            <h3>{ method === 'PUT' ? 'Edit' : 'Add a' } skill</h3>
-            <div id='skill-form-input-name-container'>
-                <label htmlFor='skill-form-input-name'>Name</label>
-                <input id='skill-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
-            </div>
-            { (form.xp && form.requiredXp && form.level && progressBarWidth) ? (
-                <div className='skill-form-progress-bar-container'>
-                    <div className='skill-form-xp'>{form.xp}</div>
-                    <div className='skill-form-level'>level: {form.level}</div>
-                    <div className='skill-form-progress-bar'>
-                        <div
-                            className='skill-form-progress-bar-progress'
-                            style={{ width: `${progressBarWidth}%` }}
-                        >
+        return (
+            <div id='skill-form-container'>
+                <h2 className='main-title'>{ method === 'PUT' ? 'Edit' : 'Add a' } skill</h2>
+                <form id='skill-form'>
+                    <div id='skill-form-inputs'>
+                        <div id='skill-controller-left'>
+                            <div id='name-input-container'>
+                                <label htmlFor='skill-form-input-name'>Name</label>
+                                <input id='skill-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
+                            </div>
+                            <div id='description-input-container'>
+                                <label htmlFor='skill-form-input-description'>Description</label>
+                                <textarea id='skill-form-input-container' name='description' value={form.description} onChange={e => handleChange(e, 'description')}></textarea>
+                            </div>
+                        </div>
+                        <div id='actions'>
+                            <div>
+                                <h3>Actions</h3>
+                                <ul>
+                                    {(actionsList && actionsList.length > 0) ? actionsList : ''}
+                                    <li id='skill-form-task-add' onClick={() => addAction()}>Add action</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div className='skill-form-required-xp'>{form.requiredXp}</div>
-                </div>
-            ) : '' }
-            <p className='skill-form-description'>
-                <label htmlFor='skill-form-input-description'>Description</label>
-                <textarea id='skill-form-input-description' name='description' value={form.description} required onChange={e => handleChange(e, 'description')}></textarea>
-            </p>
-            <ul className='skill-form-actions'>
-                { (actionsList && actionsList.length > 0) ? actionsList : '' }
-                <li id='skill-form-actions-add' onClick={e => addAction()}>Add action</li>
-            </ul>
-            { date ? (
-                <span className='skill-form-date'>
-                    Started on {date}
-                </span>
-            ) : '' }
-            <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
-            <div style={{ clear: 'both' }}></div>
-        </div>
-    )
+                    <div id='submit-button-container'>
+                        <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
+                    </div>
+                </form>
+            </div>
+        )
+
+    // return (
+    //     <div className='skill-form'>
+    //         <h3>{ method === 'PUT' ? 'Edit' : 'Add a' } skill</h3>
+    //         <div id='skill-form-input-name-container'>
+    //             <label htmlFor='skill-form-input-name'>Name</label>
+    //             <input id='skill-form-input-name' name='name' type='text' value={form.name} required onChange={e => handleChange(e, 'name')}></input>
+    //         </div>
+    //         { (form.xp && form.requiredXp && form.level && progressBarWidth) ? (
+    //             <div className='skill-form-progress-bar-container'>
+    //                 <div className='skill-form-xp'>{form.xp}</div>
+    //                 <div className='skill-form-level'>level: {form.level}</div>
+    //                 <div className='skill-form-progress-bar'>
+    //                     <div
+    //                         className='skill-form-progress-bar-progress'
+    //                         style={{ width: `${progressBarWidth}%` }}
+    //                     >
+    //                     </div>
+    //                 </div>
+    //                 <div className='skill-form-required-xp'>{form.requiredXp}</div>
+    //             </div>
+    //         ) : '' }
+    //         <p className='skill-form-description'>
+    //             <label htmlFor='skill-form-input-description'>Description</label>
+    //             <textarea id='skill-form-input-description' name='description' value={form.description} required onChange={e => handleChange(e, 'description')}></textarea>
+    //         </p>
+    //         <ul className='skill-form-actions'>
+    //             { (actionsList && actionsList.length > 0) ? actionsList : '' }
+    //             <li id='skill-form-actions-add' onClick={e => addAction()}>Add action</li>
+    //         </ul>
+    //         { date ? (
+    //             <span className='skill-form-date'>
+    //                 Started on {date}
+    //             </span>
+    //         ) : '' }
+    //         <button type='submit' onClick={e => handleSubmit(e)}>Submit</button>
+    //         <div style={{ clear: 'both' }}></div>
+    //     </div>
+    // )
 }

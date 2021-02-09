@@ -1,4 +1,43 @@
-.skill-form input {
+#skill-form .skill-form-action {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#skill-form .skill-form-action div {
+    width: 100%;
+}
+
+.skill-form-action-inputs-container {
+    /* width: 85%; */
+    flex-basis: 90%;
+}
+
+#skill-form .skill-form-action-name, #skill-form .skill-form-action-value {
+    background-color: var(--quaternaryColor);
+    margin: 2.5% auto;
+}
+
+#skill-form .skill-form-action-remove {
+    color: #F13E3E;
+    margin: 0;
+}
+
+#skill-form .skill-form-action-remove:hover {
+    opacity: .75;
+}
+
+@media screen and (max-width: 768px) {
+    .skill-form-action-inputs-container {
+        flex-basis: 85%;
+    }
+}
+
+
+
+/* .skill-form input {
     background: none; 
     border: none;
     border-bottom: 1px solid black;
@@ -96,4 +135,4 @@ textarea:focus {
         width: 100%;
         padding: 0;
     }
-}
+} */

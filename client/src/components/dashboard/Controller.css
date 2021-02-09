@@ -1,0 +1,145 @@
+#skill-controller, #plan-controller {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#skill-form-inputs, #plan-form-inputs {
+    width: 100%;
+}
+
+#skill-links, #plan-links {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    font-size: .75rem;
+}
+
+#skill-controller-left, #plan-controller-left {
+    width: 62.5%;
+    float: left;
+}
+
+#main-stats {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#main-stats .stat-header,
+#main-stats .stat-big-header {
+    margin: 0;
+}
+
+#main-stats .stat-header {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+#main-stats .stat-big-header {
+    font-size: 1.75rem;
+    color: #6DD6D6;
+    font-weight: normal;
+}
+
+#main-stats-progress-bar {
+    width: 85%;
+    height: 35px;
+    border-radius: 10px;
+    background-color: var(--tertiaryColor);
+}
+
+#main-stats-progress-bar-inner {
+    background-color: #6DD6D6;
+    width: 0;
+    height: 100%;
+    border-radius: 10px;
+    transition: width .75s .1s ease;
+}
+
+#description {
+    width: 85%;
+    border-radius: 10px;
+    margin: 20% auto 0 auto;
+    position: relative;
+    padding: 2.5%;
+    box-sizing: border-box;
+    background-color: var(--tertiaryColor);
+}
+
+#description p {
+    word-break: break-all;
+}
+
+#description h3 {
+    position: absolute;
+    top: -5.5vh;
+    left: 3%;
+}
+
+#actions, #tasks {
+    width: 37.5%;
+    float: right;
+}
+
+#actions h3, #tasks h3 {
+    margin-top: 0;
+}
+
+#actions ul, #tasks ul {
+    padding: 0;
+    max-height: 97.5vh;
+    overflow: auto;
+}
+
+#actions ul li, #tasks ul li {
+    cursor: pointer;
+    width: 90%;
+    margin: 5% 0;
+    padding: 2.5%;
+    border-radius: 10px;
+    background-color: var(--tertiaryColor);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: .85rem;
+}
+
+#actions ul li:hover, #tasks ul li:hover {
+    opacity: .75;
+}
+
+#actions ul li span, #tasks ul li span {
+    margin: auto 3%;
+}
+
+#date {
+    position: absolute;
+    bottom: 2%;
+    right: 2.5%;
+    font-size: .75rem;
+    font-weight: lighter;
+}
+
+@media screen and (max-width: 768px) {
+    #skill-controller-left, #plan-controller-left {
+        width: 100%;
+        margin: auto;
+    }
+    #actions, #tasks {
+        width: 80%;
+        margin: 10vh 10%;
+        float: left;
+    }
+    #main-stats { font-size: .95rem; }
+    #main-stats .stat-big-header { font-size: 1.5rem; }
+    #description p { font-size: 1rem; }
+}
+
+@media screen and (max-width: 600px) {
+    #skill-controller-left,
+    #plan-controller-left { margin-top: 5vh; }
+    #date { font-size: .7rem; }
+}

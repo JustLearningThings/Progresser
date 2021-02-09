@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { BrowserRouter, useLocation, useHistory, Link } from 'react-router-dom'
 import Loading from '../../Loading'
+
+import '../Controller.css'
 import './PlanController.css'
 
 import AuthContext from '../../../auth/authContext'
@@ -82,7 +84,7 @@ export default function PlanController() {
             tasksList.push((
                 <li
                     key={i}
-                    className={`plan-controller-task${task.completed ? ' plan-controller-task-completed' : ''}`}
+                    className={`plan-controller-task ${task.completed ? ' plan-controller-task-completed' : ''}`}
                     onClick={() => task.completed ? '' : updateProgress(task.name)}
                 > {task.name} </li>
             ))
@@ -100,45 +102,53 @@ export default function PlanController() {
     if (!plan.title) return (<Loading />)
 
     return (
-        <div className='plan-controller'>
-
+        <div id='plan-controller'>
             { /* if a badge was earned/updated then show the popup notification */ }
             { plan.badge && Object.keys(plan.badge).length > 0 ? <Popup
                 showPopup={popupContext.setPopup}
-                text={`${plan.badge.state === 'updated' ? `${plan.badge.name} badge had just leveled up` : `You earned a new badge: ${plan.badge.name}`}`}
-                /> : '' }
-
-            <h3>{plan.title}</h3>
-            <div className='plan-controller-progress-bar-container'>
-                <div className='plan-controller-progress'>{plan.progress === 100 ? 'completed' : `${plan.progress.toFixed(2)}%`}</div>
-                <div className='plan-controller-progress-bar'>
-                    <div
-                        className={`plan-controller-progress-bar-progress${progressBarWidth == 100 ? '-completed' : ''}`}
-                        style={{ width: `${progressBarWidth.toFixed(2)}%` }}
-                    >
-                    </div>
+                text={`${plan.badge.state === 'updated' ? `${plan.badge.name} badge had just leveled up` : `You earend a new badge: ${plan.badge.name}` }`}
+            /> : '' }
+            <h2 className='main-title'>{plan.title}</h2>
+            <div className='main-overflow-hidden'>
+                <div id='plan-links'>
+                    <span
+                        id='plan-controller-delete'
+                        onClick={() => handleDelete()}>
+                        Delete
+                </span>
                 </div>
+                <div id='plan-controller-left'>
+                    <div id='main-stats'>
+                        <div id='plan-completed'>
+                            <h3 className='stat-header'>Completed</h3>
+                            <div>
+                                &nbsp;
+                            <span className='stat-big-header'>{+plan.progress.toFixed(2)}</span>
+                            &nbsp; %
+                    </div>
+                        </div>
+                    </div>
+                    <div id='main-stats-progress-bar'>
+                        <div
+                            id='main-stats-progress-bar-inner'
+                            style={{ width: `${progressBarWidth}%` }}>
+                        </div>
+                    </div>
+                    {plan.description ?
+                        <div id='description'>
+                            <h3 id='description-header'>Description</h3>
+                            <p>{plan.description}</p>
+                        </div>
+                        : ''}
+                </div>
+                <div id='tasks'>
+                    <h3>Tasks</h3>
+                    <ul>{tasksList}</ul>
+                </div>
+                { date ?
+                    <span id='date'>Created: {date}</span>
+                : '' }
             </div>
-            <p className='plan-controller-description'>
-                {plan.description}
-            </p>
-            <ul className='plan-controller-tasks'>
-                {tasksList}
-            </ul>
-            <span className='plan-controller-date'>
-                Started on {date}
-            </span>
-            <span className='plan-controller-delete' onClick={() => handleDelete()}>
-                Delete
-            </span>
-            <Link
-                className='plan-controller-edit'
-                to={{
-                    pathname: `/dashboard/plans/update/${id}`,
-                    state: { id, plan, date, progressBarWidth }
-                }}>
-                Edit
-            </Link>
         </div>
     )
 }

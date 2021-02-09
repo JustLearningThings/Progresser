@@ -1,132 +1,55 @@
-.skill-controller,
-.skill-form {
-    background-color: #E1DFAD;
-    border-radius: 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
-    padding: 15px;
-    width: 75%;
-    margin: 7% auto;
+#skill-links a {
+    margin-right: 2%;
+    color: var(--primary-color);
 }
 
-.skill-controller h3,
-.skill-controller-description,
-.skill-form h3,
-.skill-form-description
-{
-    text-align: center;
+#skill-links span {
+    cursor: pointer;
+    color: #F13E3E;
 }
 
-.skill-controller h3,
-.skill-form h3 {
-    font-size: 1.35rem;
-    font-weight: normal;
+#skill-links span:hover { opacity: .75; }
+
+#skill-controller-left #main-stats {
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;
 }
 
-.skill-controller-progress-bar-container,
-.skill-form-progress-bar-container {
+#main-stats #main-stats-upper {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+}
+
+#main-stats-upper #main-stats-level,
+#main-stats-upper #main-stats-xp {
+    background-color: var(--tertiaryColor);
+    padding: 2% 3%;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
-    width: 95%;
-    position: relative;
-    margin: 10% auto;
+    border-radius: 10px;
+    min-width: 100px;
 }
 
-.skill-controller-level,
-.skill-form-level {
-    position: absolute;
-    top: -60%;
-}
-
-.skill-controller-xp,
-.skill-form-xp {
-    margin-right: 2%;
-}
-
-.skill-controller-required-xp,
-.skill-form-required-xp {
-    margin-left: 2%;
-}
-
-.skill-controller-progress-bar,
-.skill-form-progress-bar {
-    width: 85%;
-    background-color: #EAEEF0;
-    height: 40px;
-}
-
-.skill-controller-progress-bar-container
-.skill-controller-progress-bar-progress,
-.skill-form-progress-bar-container
-.skill-form-progress-bar-progress {
-    background-color: #628092;
-    height: 100%;
-    margin: 0;
-}
-
-.skill-controller-description,
-.skill-form-description {
-    margin: 3% auto 5% auto;
-}
-
-.skill-controller-actions,
-.skill-form-actions {
-    margin: 5% auto;
-}
-
-.skill-controller-action,
-.skill-form-action {
-    cursor: pointer;
-    font-size: 1.05rem;
-    border-bottom: 1px solid rgba(0, 0, 0, .15);
-    margin: 3% auto;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.skill-controller-date,
-.skill-controller-edit,
-.skill-controller-delete,
-.skill-form-date,
-.skill-form-edit
-{
-    font-weight: lighter;
-    font-size: .8rem;
-}
-
-.skill-controller-edit {
-    float: right;
-    margin-right: 2%;
-}
-
-.skill-controller-delete {
-    float: right;
-    margin-right: 1%;
-    color: red;
-    cursor: pointer;
-}
-
-@media screen and (max-width: 768px) {
-    .skill-controller-progress-bar-container,
-    .skill-form-progress-bar-container {
-        margin: 25% auto 15% auto;
+@media screen and (max-width: 328px) {
+    #main-stats #main-stats-upper {
+        flex-direction: column;
+        width: 60%;
     }
-    .skill-controller-description,
-    .skill-form-description {
-        margin: 10% auto;
+    #main-stats #main-stats-upper div {
+        margin: 1.5vh auto;
     }
-    .skill-controller-actions,
-    .skill-form-actions {
-        margin: 10% auto;
+    #main-stats-level, #main-stats-xp {
+        font-size: .5rem;
+        width: 90%;
     }
-    .skill-controller-date,
-    .skill-controller-edit,
-    .skill-form-date {
-        font-size: .7rem;
+    #main-stats-progress-bar {
+        height: 30px;
+        margin-top: 5vh;
+    }
+    #actions ul li {
+        width: 100%;
     }
 }

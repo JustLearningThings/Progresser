@@ -1,128 +1,32 @@
-.plan-controller,
-.plan-form {
-    background-color: #E1DFAD;
-    border-radius: 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
-    padding: 15px;
-    width: 75%;
-    margin: 7% auto;
-}
-
-.plan-controller h3,
-.plan-controller-description,
-.plan-form h3,
-.plan-form-description
-{
-    text-align: center;
-}
-
-.plan-controller h3,
-.plan-form h3 {
-    font-size: 1.35rem;
-    font-weight: normal;
-}
-
-.plan-controller-progress-bar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 95%;
-    position: relative;
-    margin: 5% auto;
-}
-
-.plan-controller-progress,
-.plan-form-progress {
-    margin-bottom: 2%;
-}
-
-.plan-controller-progress-bar {
-    width: 85%;
-    background-color: #EAEEF0;
-    height: 40px;
-}
-
-.plan-controller-progress-bar-container
-.plan-controller-progress-bar-progress,
-.plan-controller-progress-bar-container
-.plan-controller-progress-bar-progress-completed {
-    background-color: #628092;
-    height: 100%;
-    margin: 0;
-}
-.plan-controller-progress-bar-container
-.plan-controller-progress-bar-progress-completed {
-    background-color: #c24444;
-}
-
-.plan-controller-description,
-.plan-form-description {
-    margin: 3% auto 5% auto;
-}
-
-.plan-controller-actions,
-.plan-form-tasks {
-    margin: 5% auto;
-}
-
-.plan-controller-task,
-.plan-form-task {
+#plan-controller-delete {
     cursor: pointer;
-    font-size: 1.05rem;
-    border-bottom: 1px solid rgba(0, 0, 0, .15);
-    margin: 3% auto;
+    color: #F13E3E;
+    margin-right: 2%;
+}
 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+#main-stats {
+    justify-content: center;
+    min-height: 50px;
+    margin-bottom: 7.5%;
+}
+
+#plan-completed {
+    background-color: var(--tertiaryColor);
+    padding: 2% 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    min-width: 125px;
+}
+
+#main-stats-progress-bar {
+    margin: auto;
 }
 
 .plan-controller-task-completed {
     text-decoration: line-through;
-    cursor: default;
-    border: none;
+    opacity: .5;
 }
 
-.plan-controller-date,
-.plan-controller-edit,
-.plan-controller-delete,
-.plan-form-date,
-.plan-form-edit
-{
-    font-weight: lighter;
-    font-size: .8rem;
-}
-
-.plan-controller-edit {
-    float: right;
-    margin-right: 2%;
-}
-
-.plan-controller-delete {
-    float: right;
-    margin-right: 1%;
-    color: red;
-    cursor: pointer;
-}
-
-@media screen and (max-width: 768px) {
-    .plan-controller-progress-bar-container {
-        margin: 25% auto 15% auto;
-    }
-    .plan-controller-description,
-    .plan-form-description {
-        margin: 10% auto;
-    }
-    .plan-controller-actions,
-    .plan-form-tasks {
-        margin: 10% auto;
-    }
-    .plan-controller-date,
-    .plan-controller-edit,
-    .plan-form-date {
-        font-size: .7rem;
-    }
-}
+/* make line height for header tighter */

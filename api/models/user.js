@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
     },
     refresh: {
         type: String,
+        required: true
     }
 })
 

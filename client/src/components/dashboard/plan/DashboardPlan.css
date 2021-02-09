@@ -5,7 +5,6 @@
     justify-content: center;
     padding: 1.5%;
     text-align: center;
-    background-color: #E1DFAD;
     margin: 3%;
     border-radius: 10px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
@@ -46,9 +45,13 @@
 .plan-progress-bar-inner-completed {
     width: 0;
     height: 100%;
-    background-color: #628092;
+    background-color: var(--progress-bar-inner-color);
 }
 
 .plan-progress-bar-inner-completed {
     background-color: #c24444;
+}
+
+.plan-progress-bar, .plan-progress-bar-inner {
+    border-radius: 5px;
 }

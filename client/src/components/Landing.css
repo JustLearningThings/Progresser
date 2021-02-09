@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&family=Tomorrow:wght@300;400;600&display=swap');
+
+#landing {
+    background-color: #fbfbfb;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#sticky-section {
+    height: 200vh;
+    min-height: 1950px;
+}
+
+#hero {
+    background-color: #02031D;
+    width: 50%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: sticky;
+    color: #E4E4F2;
+    top: 0;
+}
+
+.btn {
+    cursor: pointer;
+    font-family: 'Tomorrow', sans-serif;
+    font-size: .95rem;
+    border: none;
+    border-radius: 5px;
+    padding: 12.5px 22.5px;
+    transition: transform .1s ease;
+    color: #E4E4F2;
+}
+
+.btn:hover, .btn:focus {
+    opacity: .9;
+    transform: scale(1.025);
+}
+
+.signup-btn {
+    background-color: #29865D;
+}
+
+.login-btn {
+    background-color: #7283D8;
+}
+
+#hero nav {
+    max-width: 50%;
+    animation: appear 1s ease forwards;
+}
+
+#hero nav ul {
+    padding: 3% 0 0 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: .85rem;
+    font-family: 'Tomorrow', sans-serif;
+}
+
+#hero nav ul li a {
+    outline: none;
+    color: #FBFBFB;
+}
+#hero nav ul li a:hover { opacity: .75; }
+#hero nav ul li:first-child a { color: #3BDE7C; }
+
+#hero-content {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    min-height: 475px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5% 0 5%;
+    animation: appear-with-transform 1s ease forwards;
+}
+
+#hero-content h1 {
+    font-size: 4rem;
+}
+
+#hero-content #progress-span {
+    color: #3BDE7C;
+    opacity: .9;
+}
+
+#hero-content p {
+    font-size: 1.1rem;
+    width: 75%;
+}
+
+#hero-content #hero-btn {
+    margin-top: 3%;
+}
+
+#scrollable-sticky-sections {
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#skills-section, #plans-section {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    animation: appear 1s 1s ease forwards;
+}
+
+section:not(:last-child) { min-height: 650px; }
+
+.demo-card {
+    background-color: #E1DFAD;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+    padding: 15px;
+    width: 40%;
+    max-height: 270px;
+    margin: 0;
+}
+
+#skill-demo-card-top, #skill-demo-card-bottom {
+    float: left;
+    position: relative;
+}
+
+#skill-demo-card-top {
+    left: 40%;
+    bottom: -10%;
+}
+
+#skill-demo-card-bottom {
+    left: -30%;
+}
+
+.card-title, .card-description, .card-level { text-align: center; }
+.card-description, .card-level { font-weight: lighter; }
+.card-description, .card-action { font-size: .9rem; }
+
+.card-title {
+    font-weight: normal;
+    margin-top: 0;
+}
+
+.card-level {
+    font-size: .85rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.card-progress-bar {
+    width: 90%;
+    margin: auto;
+    height: 30px;
+    background-color: #EAEEF0;
+}
+
+.card-progress-bar-inner {
+    width: 60%;
+    height: 100%;
+    background-color: #628092;
+}
+
+.card-actions {
+    margin: 10% auto 5% auto;
+    padding: 0;
+    width: 97.5%;
+    text-align: left;
+}
+
+.card-action {
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    margin: 3% auto;
+}
+
+.section-title {
+    margin-bottom: 20%;
+    font-weight: normal;
+}
+
+.section-paragraph {
+    font-size: 1.1rem;
+    margin-top: 20%;
+    width: 80%;
+    align-self: center;
+}
+
+
+#plan-demo-card {
+    margin: auto;
+    width: 50%;
+    max-height: 300px;
+}
+
+
+
+#description-section {
+    width: 100%;
+    height: 200vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2% 0;
+}
+
+.description-inner-section {
+    box-sizing: border-box;
+    flex-basis: 50%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2%;
+    text-align: center;
+}
+
+.description-inner-section-left { border-right: 1px solid #29865D; }
+.description-inner-section-right { border-left: 1px solid #29865D; }
+
+.description-inner-section p {
+    font-size: 1.2rem;
+    order: 1;
+}
+
+.description-inner-section img {
+    width: 75%;
+    max-height: 40vh;
+    order: 2;
+}
+
+.description-inner-section-right p { order: 2; }
+.description-inner-section-right img { order: 1; }
+
+
+
+#join-section {
+    min-height: 20vh;
+    padding: 5% 0 7.5% 0;
+    background-color: #2F2E41;
+    color: #f2f2f2;
+    font-family: 'Tomorrow', sans-serif;
+    position: relative;
+}
+
+#join-section h2 {
+    margin: auto;
+    text-align: center;
+    font-size: 2.75rem;
+
+    opacity: 0;
+}
+
+#join-section #buttons-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    margin: 2.5% auto;
+
+    opacity: 0;
+}
+
+.circle {
+    border-radius: 50%;
+    background-color: #29865D;
+    position: absolute;
+
+    opacity: 0;
+}
+
+#circle1 {
+    width: 15px;
+    height: 15px;
+    right: 7.5%;
+    bottom: 50%;
+}
+
+#circle2 {
+    width: 35px;
+    height: 35px;
+    right: 8.5%;
+    bottom: 35%;
+}
+
+#triangle {
+    background-color: #7283D8;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    clip-path: polygon(0% 0%, 100% 0, 100% 100%);
+    border-radius: 10px;
+    left: 2.5%;
+    bottom: 25%;
+    transform: rotate(-10deg);
+
+    opacity: 0;
+}
+
+#footer {
+    background-color: #2F2E41;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5% 2%;
+}
+
+#footer #links {
+    width: 20%;
+    min-width: 175px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#footer #links a, #footer {
+    color: #F2F2F2;
+}
+
+#footer h3 {
+    font-size: .9rem;
+}
+
+#footer a {
+    font-size: .85rem;
+}
+
+@media screen and (max-width: 768px) {
+    #hero {
+        width: 100%;
+        position: static;
+        text-align: center;
+    }
+    #hero nav {
+        max-width: 100%;
+        font-size: .25rem;
+    }
+    #hero nav ul {
+        margin-top: 0;
+        padding-top: 3%;
+    }
+    #hero-content {
+        height: 90%;
+        padding: 0;
+        align-items: center;
+    }
+    #hero-content h1 { font-size: 3.75rem; }
+    #hero-content p { font-size: 1rem; }
+    #hero-content #hero-btn { margin-top: 40%; }
+    #scrollable-sticky-sections {
+        width: 100%;
+        position: static;
+    }
+    .card-title { font-size: .95em; }
+    .card-level {font-size: .65em; }
+    .card-description, .card-action { font-size: .75em; }
+    #description-section { height: 400vh; }
+    .description-inner-section { flex-basis: 100%; }
+    .description-inner-section-left, .description-inner-section-right { border: none; }
+    .description-inner-section p {
+        border-left: 2px solid #29865D;
+        font-size: .9rem;
+        padding-left: 2%;
+        order: 1;
+    }
+    .description-inner-section img { border: 2; }
+    #join-section { padding-bottom: 15%; }
+    #join-section h2 { font-size: 1.5rem; }
+    #join-section #buttons-div {
+        margin-top: 10%;
+        min-width: 175px;
+        width: 60%;
+    }
+    #join-section #buttons-div .btn, #join-section #buttons-div p { font-size: .75rem; }
+    #join-section #buttons-div .btn { padding: 10px 15px; }
+    .circle, #triangle { display: none; }
+    #footer h3 { font-size: .75rem; }
+    #footer #links a { font-size: .7rem; }
+}
+
+@keyframes appear-with-transform {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.appear-with-transform { animation: appear-with-transform 1s ease forwards; }
+
+@keyframes appear-shapes {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.appear-shapes { animation: appear-shapes 2.5s ease forwards; }
+
+@keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.appear { animation: appear 1s ease forwards; }

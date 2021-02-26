@@ -2,7 +2,7 @@ import React from 'react'
 import './DashboardBadge.css'
 
 export default function DashboardBadge({ name, description, src, tier, quote, quoteAuthor }) {
-    let ImageColorScheme = {
+    const ImageColorScheme = {
         common: 'rgba(220, 20, 60, .6)',
         rare: 'rgba(65, 105, 205, .7)',
         honored: 'rgba(50, 205, 50, .5)',
@@ -20,7 +20,7 @@ export default function DashboardBadge({ name, description, src, tier, quote, qu
                     <img
                         className='badge-img'
                         src={src}
-                        alt={`Badge: ${description}`}
+                        alt={`Badge: ${name}`}
                         style={imgStyle}
                     />
                     <h4 className='badge-name'>{name}</h4>

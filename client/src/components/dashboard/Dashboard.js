@@ -23,6 +23,7 @@ const PlansList = React.lazy(() => import('./plan/PlansList'))
 const PlanController = React.lazy(() => import('./plan/PlanController'))
 const PlanForm = React.lazy(() => import('./plan/PlanForm'))
 const BadgesList = React.lazy(() => import('./badge/BadgesList'))
+const Profile = React.lazy(() => import('./profile/Profile'))
 
 export default function Dashboard() {
     const history = useHistory()
@@ -46,6 +47,7 @@ export default function Dashboard() {
     if (localStorage && localStorage.getItem('dark')) body.classList.add('dark')
     else body.classList.add('light')
 
+    // add suspense to routes
     return (
         <div id='dashboard'>
             <PopupNotificationContext.Provider value={{ setPopup }}>
@@ -84,6 +86,10 @@ export default function Dashboard() {
 
                            <Route exact path='/dashboard/badges'>
                                <BadgesList />
+                           </Route>
+
+                           <Route exact path='/dashboard/profile'>
+                               <Profile />
                            </Route>
 
                             {/* default */}
@@ -126,7 +132,8 @@ function DashboardUpperNav() {
     return (
         <nav id='upper-nav' aria-label='upper page navigation'>
             <div>
-                <Link to={`/user/${ authContext.userId }`}>{ authContext.username }</Link>
+                {/* <Link to={`/dashboard/profile/${ authContext.userId }`}>{ authContext.username }</Link> */}
+                <Link to={`/dashboard/profile/`}>{ authContext.username }</Link>
                 <Link to='/help'>Help</Link>
                 <Link to='/about'>About</Link>
                 { authContext.userId ?

@@ -16,7 +16,7 @@
     min-height: 150px;
 }
 
-#main-stats #main-stats-upper {
+#skill-controller #main-stats #main-stats-upper {
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -34,11 +34,11 @@
 }
 
 @media screen and (max-width: 328px) {
-    #main-stats #main-stats-upper {
+    #skill-controller #main-stats #main-stats-upper {
         flex-direction: column;
         width: 60%;
     }
-    #main-stats #main-stats-upper div {
+    #skill-controller #main-stats #main-stats-upper div {
         margin: 1.5vh auto;
     }
     #main-stats-level, #main-stats-xp {

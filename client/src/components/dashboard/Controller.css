@@ -22,23 +22,28 @@
     float: left;
 }
 
-#main-stats {
+#skill-controller #main-stats,
+#plan-controller #main-stats {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-#main-stats .stat-header,
-#main-stats .stat-big-header {
+#skill-controller #main-stats .stat-header,
+#plan-controller #main-stats .stat-header,
+#skill-controller #main-stats .stat-big-header,
+#plan-controller #main-stats .stat-big-header {
     margin: 0;
 }
 
-#main-stats .stat-header {
+#skill-controller #main-stats .stat-header,
+#plan-controller #main-stats .stat-header {
     font-size: 1rem;
     margin-right: 10px;
 }
 
-#main-stats .stat-big-header {
+#skill-controller #main-stats .stat-big-header,
+#plan-controller #main-stats .stat-big-header {
     font-size: 1.75rem;
     color: #6DD6D6;
     font-weight: normal;
@@ -133,8 +138,10 @@
         margin: 10vh 10%;
         float: left;
     }
-    #main-stats { font-size: .95rem; }
-    #main-stats .stat-big-header { font-size: 1.5rem; }
+    #skill-controller #main-stats,
+    #plan-controller { font-size: .95rem; }
+    #skill-controller #main-stats .stat-big-header,
+    #plan-controller #main-stats .stat-big-header { font-size: 1.5rem; }
     #description p { font-size: 1rem; }
 }
 

@@ -26,6 +26,7 @@ class Badge {
                 $push: { badges: badge },
                 $inc: {
                     'stats.earnedBadges': 1,
+                    'stats.distinctBadges': 1,
                     'stats.points': this.tiers[0].value
                 }
             }, err => err ? false : true)
@@ -50,6 +51,7 @@ class Badge {
             const update = {
                 '$inc': {
                     'stats.earnedBadges': 1,
+                    'stats.pointsFromBadges': 1,
                     'stats.points': this.tiers[tierId].value
                 },
                 '$set': {}

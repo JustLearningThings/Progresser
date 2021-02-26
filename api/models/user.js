@@ -29,6 +29,8 @@ const userSchema = new mongoose.Schema({
     stats: {
         points: { type: Number, default: 0, required: true },
         earnedBadges: { type: Number, default: 0, required: true },
+        pointsFromBadges: { type: Number, default: 0, required: true },
+        distinctBadges: { type: Number, default: 0, required: true },
         plans: {
             completed: { type: Number, default: 0, required: true },
             completedTasks: { type: Number, default: 0, required: true },

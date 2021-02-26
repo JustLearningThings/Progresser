@@ -82,42 +82,46 @@ export default function Profile() {
                             <h3 className='card-stats-header'>Skills</h3>
                             <div className='upper-stats'>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-orange'>{user.stats.skills.created}</div>
+                                    <div className='circle circle-orange'>{user.stats.skills.created ? user.stats.skills.created : '?'}</div>
                                     <h5>Created</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-purple'>{user.stats.skills.created - user.stats.skills.deleted}</div>
+                                    <div className='circle circle-purple'>
+                                        { user.stats.skills.created && user.stats.skills.deleted ? user.stats.skills.created - user.stats.skills.deleted: '?'}
+                                    </div>
                                     <h5>Alive</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-blue'>{user.stats.skills.deleted}</div>
+                                    <div className='circle circle-blue'>{user.stats.skills.deleted ? user.stats.skills.deleted : '?'}</div>
                                     <h5>Deleted</h5>
                                 </div>
                             </div>
                             <div className='lower-stats'>
-                                <p>Completed levels: {user.stats.skills.completedLevels}</p>
-                                <p>Earned xp: {user.stats.skills.earnedXp}</p>
+                                <p>Completed levels: {user.stats.skills.completedLevels ? user.stats.skills.completedLevels : '?'}</p>
+                                <p>Earned xp: {user.stats.skills.earnedXp ? user.stats.skills.earnedXp : '?'}</p>
                             </div>
                         </section>
                         <section id='plans-stats'>
                             <h3 className='card-stats-header'>Plans</h3>
                             <div className='upper-stats'>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-orange'>{user.stats.plans.created}</div>
+                                    <div className='circle circle-orange'>{user.stats.plans.created ? user.stats.plans.created : '?'}</div>
                                     <h5>Created</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-purple'>{user.stats.plans.created - user.stats.plans.deleted - user.stats.plans.completed}</div>
+                                    <div className='circle circle-purple'>
+                                        {user.stats.plans.created && user.stats.plans.completed ? user.stats.plans.created - user.stats.plans.completed : '?'}
+                                    </div>
                                     <h5>Alive</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-blue'>{user.stats.plans.deleted}</div>
+                                    <div className='circle circle-blue'>{user.stats.plans.deleted ? user.stats.plans.deleted : '?'}</div>
                                     <h5>Deleted</h5>
                                 </div>
                             </div>
                             <div className='lower-stats'>
-                                <p>Completed plans: {user.stats.plans.completed}</p>
-                                <p>Completed tasks: {user.stats.plans.completedTasks}</p>
+                                <p>Completed plans: {user.stats.plans.completed ? user.stats.plans.completed : '?'}</p>
+                                <p>Completed tasks: {user.stats.plans.completedTasks ? user.stats.plans.completedTasks : '?'}</p>
                             </div>
                         </section>
                     </div>
@@ -133,8 +137,8 @@ export default function Profile() {
                     <div id='badges-stats-text'>
                         <ul>
                             <li>Badges: {user.stats.earnedBadges}</li>
-                            <li>Distinct badges: {user.stats.earnedBadges}</li>
-                            <li>Points from badges: {user.stats.earnedBadges}</li>
+                            <li>Distinct badges: {user.stats.distinctBadges}</li>
+                            <li>Points from badges: {user.stats.pointsFromBadges}</li>
                         </ul>
                     </div>
                 </section>

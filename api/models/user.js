@@ -32,17 +32,23 @@ const userSchema = new mongoose.Schema({
         plans: {
             completed: { type: Number, default: 0, required: true },
             completedTasks: { type: Number, default: 0, required: true },
-            created: { type: Number, default: 0, required: true }
+            created: { type: Number, default: 0, required: true },
+            deleted: { type: Number, default: 0, required: true }
         },
         skills: {
             completedLevels: { type: Number, default: 0, required: true },
             earnedXp: { type: Number, default: 0, required: true },
-            created: { type: Number, default: 0, required: true }
+            created: { type: Number, default: 0, required: true },
+            deleted: { type: Number, default: 0, required: true }
         }
     },
     refresh: {
         type: String,
-        required: true
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
     }
 })
 

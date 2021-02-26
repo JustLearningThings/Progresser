@@ -318,7 +318,7 @@ class Skill {
 
         // delete the skill from the user document
         // getting id from JWT token
-        User.updateOne({ _id: userId }, { $pull: { skills: mongoose.Types.ObjectId(req.params.id) } }, err => {
+        User.updateOne({ _id: userId }, { $pull: { skills: mongoose.Types.ObjectId(req.params.id) }, $inc: { 'stats.skills.deleted': 1 } }, err => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot pull skill from user' })
 
             // then delete the skill itself

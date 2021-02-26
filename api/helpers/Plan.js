@@ -245,7 +245,7 @@ class Plan {
         if (!errors.isEmpty()) return res.status(400).json({ message: `Bad Request: invalid query parameter. Errors: ${errors}` })
 
         // delete the plan from the user document first
-        User.updateOne({ _id: userId }, { $pull: { plans: mongoose.Types.ObjectId(req.params.id) } }, err => {
+        User.updateOne({ _id: userId }, { $pull: { plans: mongoose.Types.ObjectId(req.params.id) }, $inc: { 'stats.plans.deleted': 1 } }, err => {
             if (err) return res.status(409).json({ message: 'Conflict: cannot pull plan from user' })
 
             // then delete the plan itself

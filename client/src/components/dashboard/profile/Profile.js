@@ -54,29 +54,8 @@ export default function Profile() {
         date = date.toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
     }
 
-    // for badges
-    const ImageColorScheme = {
-        common: 'rgba(220, 20, 60, .6)',
-        rare: 'rgba(65, 105, 205, .7)',
-        honored: 'rgba(50, 205, 50, .5)',
-        legendary: 'rgba(255, 215, 0, .6)'
-    }
-
     let badgeCollection = []
 
-
-
-    // if (user.badges && user.badges.length > 0) {
-    //     user.badges.forEach((badge, idx) => {
-    //         badgeCollection.push(
-    //             <li key={idx} className='badge-collection-badge'>
-    //                 <img
-    //                     src={badge.base64}
-    //                     alt={`Badge: ${badge.description}`}
-    //                 />
-    //                 <p>{badge.name}</p>
-    //             </li>
-    //     )})}
     if (user.badges && user.badges.length > 0) {
         for(let i = 0; i < 3 && user.badges[i]; i++)
             badgeCollection.push(
@@ -86,7 +65,6 @@ export default function Profile() {
                 </li>
             )
     }
-    else {}
 
     return (
         <div id='profile'>
@@ -108,11 +86,11 @@ export default function Profile() {
                                     <h5>Created</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-purple'>{user.stats.skills.created}</div>
+                                    <div className='circle circle-purple'>{user.stats.skills.created - user.stats.skills.deleted}</div>
                                     <h5>Alive</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-blue'>{user.stats.skills.created}</div>
+                                    <div className='circle circle-blue'>{user.stats.skills.deleted}</div>
                                     <h5>Deleted</h5>
                                 </div>
                             </div>
@@ -129,11 +107,11 @@ export default function Profile() {
                                     <h5>Created</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-purple'>{user.stats.plans.created}</div>
+                                    <div className='circle circle-purple'>{user.stats.plans.created - user.stats.plans.deleted - user.stats.plans.completed}</div>
                                     <h5>Alive</h5>
                                 </div>
                                 <div className='circle-stat-container'>
-                                    <div className='circle circle-blue'>{user.stats.plans.created}</div>
+                                    <div className='circle circle-blue'>{user.stats.plans.deleted}</div>
                                     <h5>Deleted</h5>
                                 </div>
                             </div>

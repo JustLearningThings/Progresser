@@ -63,6 +63,18 @@ class Badge {
             User.updateOne({ _id: userId, 'badges.name': name }, update, err => err ? false : true)
         })
     }
+
+    static readAll(req, res, next) {
+        let badges = Array.from(badgeList)
+
+        badges.forEach(badge => {
+            delete badge.cdn
+            delete badge.quote
+            delete badge.quoteAuthor
+        })
+        
+        res.json(badges)
+    }
 }
 
 module.exports = Badge

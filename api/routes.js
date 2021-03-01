@@ -4,6 +4,7 @@ const router = express.Router()
 const auth = require('./auth.js')
 
 const { Skill, Plan, UserController } = require('./helpers/helpers')
+const Badge = require('./helpers/Badge.js')
 
 router.get('/all', auth.authroizeRequest, (req, res) => res.send('YOU\'RE A USER ^^'))
 router.get('/any', (req, res) => res.send('YOURE A VISITOR'))
@@ -50,6 +51,10 @@ router.delete('/plans/:id',
     auth.authroizeRequest,
     Plan.validators.delete,
     (req, res, next) => Plan.delete(req, res, next)
+)
+
+router.get('/badges/list',
+    (req, res, next) => Badge.readAll(req, res, next)
 )
 
 router.get('/user',

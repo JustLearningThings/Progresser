@@ -131,14 +131,14 @@ a:hover { opacity: .75; }
 
 #upper-nav a { color: var(--text-color); }
 
-main {
+#dashboard main {
     background-color: var(--secondaryColor);
     width: 99%;
     min-height: 91.5vh;
     border-radius: 15px;
 }
 
-main .main-overflow-hidden {
+#dashboard main .main-overflow-hidden {
     width: 100%;
     min-height: 91.5vh;
     overflow: hidden;

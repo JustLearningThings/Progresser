@@ -15,6 +15,7 @@ import './App.css';
 const Dashboard = React.lazy(() => import('./dashboard/Dashboard'))
 const FormPage = React.lazy(() => import('./form/FormPage'))
 const Landing = React.lazy(() => import('./Landing'))
+const Help = React.lazy(() => import('./Help'))
 
 // const Loading = React.lazy(() => import('./Loading.js'))
 // const Loading = () => (<div className='loading'></div>)
@@ -80,7 +81,10 @@ export default class App extends Component {
                 </Suspense>
               </Route>
               <Route path='/help'>
-                <h1>HELP</h1>
+                <Suspense fallback={<Loading />}>
+                  <Help />
+                </Suspense>
+                {/* <h1>HELP</h1> */}
               </Route>
               <Route path='/about'>
                 <h1>ABOUT</h1>

@@ -1,0 +1,168 @@
+#help {
+    width: 100%;
+}
+
+#help nav {
+    width: 100vw;
+    max-width: 100%;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    padding: 1% 0 0 1.5%;
+    box-sizing: border-box;
+}
+
+#nav-auth-links {
+    display: inline;
+}
+
+#help nav a {
+    margin: 12.5px;
+    font-size: .925rem;
+}
+
+#help nav a:hover,
+.dropdown-header:hover,
+.dropdown-content p:hover {
+  opacity: .8;
+}
+
+#contents {
+    width: 100vw;
+    max-width: 100%;
+    margin-top: 5%;
+}
+
+#help-aside {
+    width: 25%;
+    padding-left: 5%;
+    position: fixed;
+    box-sizing: border-box;
+}
+
+#help-main {
+    width: 65%;
+    margin-left: 25%;
+    box-sizing: border-box;
+}
+
+.display-none {
+    display: none;
+}
+
+.dropdown-header span {
+    cursor: pointer;
+}
+
+.triangle {
+    display: inline-block;
+    transform: rotate(180deg);
+    font-size: .7rem;
+    opacity: .75;
+    margin-left: 3px;
+    transition: transform .2s ease;
+}
+
+.triangle-rotated {
+    transform: rotate(0deg);
+}
+
+section {
+    margin: 12.5% auto;
+}
+
+.dropdown-content {
+    padding-left: 5%;
+    font-size: .9rem;
+}
+
+hr {
+    width: 85%;
+    margin: 0;
+}
+
+.main-section h1 {
+    margin-bottom: 10px;
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+}
+
+.main-section-content {
+    width: 85%;
+    box-sizing: border-box;
+    padding-right: 5%;
+    margin-top: 30px;
+}
+
+.main-section-content p {
+    letter-spacing: .25px;
+    line-height: 1.45rem;
+    font-size: .95rem;
+}
+
+.main-section-inner-content {
+    margin: 7.5% 0;
+}
+
+.main-section-inner-content h2 {
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin: 20px auto;
+}
+
+table {
+    width: 75%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+table, th, td {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-collapse: collapse;
+}
+
+th, td {
+    padding: 7px 20px;
+    text-align: center;
+}
+
+th {
+    letter-spacing: .75px;
+}
+
+td {
+    letter-spacing: .25px;
+}
+
+#rank-common { color: rgb(220, 20, 60); }
+#rank-rare { color: rgb(21, 78, 222); }
+#rank-honored { color: rgb(25, 177, 25); }
+#rank-legendary { color: rgb(232, 196, 3); }
+
+.badge-image {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(220, 25, 64, .75);
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2.5px;
+    box-shadow: .5px 2.5px black;
+}
+
+.badge-image:hover {
+    box-shadow: .5px 2px black;
+    transform: scale(.999);
+}
+
+.emphasize, .emphasize a {
+    color: #239942;
+}
+
+.emphasize a {
+    text-decoration: underline;
+}
+
+h3 {
+    font-weight: normal;
+    font-size: 1.1rem;
+}

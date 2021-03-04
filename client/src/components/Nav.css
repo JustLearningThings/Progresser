@@ -1,0 +1,40 @@
+#help nav, #about nav {
+    width: 100vw;
+    max-width: 100%;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    padding: 1% 0 0 1.5%;
+    box-sizing: border-box;
+}
+
+#nav-auth-links {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#help nav a, #about nav a {
+    margin: 12.5px;
+    font-size: .925rem;
+    letter-spacing: .5px;
+}
+
+#help nav a:hover,
+#about nav a:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 600px) {
+    #help nav a,
+    #about nav a {
+        font-size: .7rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #help nav a,
+    #about nav a {
+        font-size: .8rem;
+    }
+}

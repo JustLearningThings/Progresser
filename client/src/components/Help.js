@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { logout } from '../auth/auth'
-import AuthContext from '../auth/authContext'
+
+import Nav from './Nav'
 import './Help.css'
 
 
 
 export default function Help() {
-    let authContext = useContext(AuthContext)
-    let history = useHistory()
     let [badges, setBadges] = useState([])
 
     useEffect(() => {
@@ -31,21 +29,7 @@ export default function Help() {
 
     return (
         <div id='help'>
-            <nav>
-                <Link to='/'>Home</Link>
-                <Link to='/about'>About</Link>
-                { authContext.username && authContext.userId ?
-                    <div id='nav-auth-links'>
-                        <Link to='/dashboard'>Dashboard</Link>
-                        <Link to='#' onClick={() => logout(history, authContext)}>Log out</Link>
-                    </div>
-                :
-                    <div id='nav-auth-links'>
-                        <Link to='/signup'>Sign up</Link>
-                        <Link to='/login'>Log in</Link>
-                    </div>
-                }
-            </nav>
+            <Nav />
             <div id='contents'>
                 <aside id='help-aside'>
                     <p className='dropdown-header'><a href='#what-is-progresser'>What is Progresser ?</a></p>

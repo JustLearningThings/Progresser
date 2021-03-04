@@ -1,0 +1,16 @@
+#about p a {
+    text-decoration: underline;
+}
+
+#about-main {
+    margin: auto;
+    padding: 5% 12.5% 0 12.5%;
+}
+
+#about-main h2 {
+    letter-spacing: 1px;
+}
+
+#about-main p {
+    letter-spacing: .5px;
+}

@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { BrowserRouter, Link } from 'react-router-dom'
+import React, { useRef, useState, useEffect, useContext } from 'react'
+import { BrowserRouter, Link, history, useHistory } from 'react-router-dom'
 
 import './Landing.css'
 
@@ -8,6 +8,9 @@ import goals from '../assets/svg/goals.svg'
 import powerful from '../assets/svg//powerful.svg'
 import gaming from '../assets/svg/gaming.svg'
 import learning from '../assets/svg/learning.svg'
+
+import AuthContext from '../auth/authContext'
+import { logout } from '../auth/auth'
 
 // for animation certain parts of the page when intersecting with the viewport
 function useIntersectionObserver(options={}) {
@@ -36,17 +39,40 @@ export default function Landing() {
     const circle2Visibility = useIntersectionObserver()
     const triangleVisibilty = useIntersectionObserver()
 
+    const authContext = useContext(AuthContext)
+    const history = useHistory()
+    const [isLogged, setLogged] = useState(authContext.username && authContext.userId)
+
     return (
         <div id='landing'>
             <div id='sticky-section'>
                 <section id='hero'>
                     <nav>
-                        <ul>
+                        { isLogged
+                            ?
+                                <ul>
+                                    <li><Link to='/dashboard'>Dashboard</Link></li>
+                                    <li><Link to='/help'>Help</Link></li>
+                                    <li><Link to='/about'>About</Link></li>
+                                    <li><Link to='#' onClick={() => {
+                                        logout(history, authContext.changeUser)
+                                        setLogged(false)
+                                    }}>Logout</Link></li>
+                                </ul> 
+                            :
+                                <ul>
+                                    <li><Link to='/signup'>Sign up</Link></li>
+                                    <li><Link to='/login'>Log in</Link></li>
+                                    <li><Link to='/help'>Help</Link></li>
+                                    <li><Link to='/about'>About</Link></li>
+                                </ul>
+                        }
+                        {/* <ul>
                             <li><Link to='/signup'>Sign up</Link></li>
                             <li><Link to='/login'>Log in</Link></li>
                             <li><Link to='/help'>Help</Link></li>
                             <li><Link to='/about'>About</Link></li>
-                        </ul>
+                        </ul> */}
                     </nav>
                     <div id='hero-content'>
                         <h1>Track your <span id='progress-span'>progress</span></h1>

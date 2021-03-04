@@ -13,7 +13,9 @@
 }
 
 #nav-auth-links {
-    display: inline;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 #help nav a {
@@ -165,4 +167,97 @@ td {
 h3 {
     font-weight: normal;
     font-size: 1.1rem;
+}
+
+@media screen and (max-width: 768px) {
+    #help nav a {
+        font-size: .8rem;
+    }
+    #help-aside {
+        position: static;
+        padding: 5% 0 0 12.5%;
+        width: 100vw;
+        max-width: 100%;
+    }
+    #help-main {
+        width: 100%;
+        margin: auto;
+        padding-left: 12.5%;
+    }
+    .dropdown-header {
+        font-size: .9rem;
+    }
+    .dropdown-content {
+        font-size: .85rem;
+    }
+    .triangle {
+        font-size: .6rem;
+    }
+    .main-section h1 {
+        font-size: 1.5rem;
+    }
+    .main-section-inner-content h2 {
+        font-size: 1rem;
+    }
+    .main-section-content p {
+        font-size: .85rem;
+    }
+    h3 {
+        font-size: .95rem;
+    }
+    table {
+        font-size: .9rem;
+    }
+    .badge-image {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #help nav a {
+        font-size: .7rem;
+    }
+    .dropdown-header {
+        font-size: .8rem;
+    }
+    .dropdown-content {
+        font-size: .75rem;
+    }
+    .triangle {
+        font-size: .5rem;
+    }
+    .main-section h1 {
+        font-size: 1.25rem;
+    }
+    .main-section-inner-content h2 {
+        font-size: .9rem;
+    }
+    .main-section-content p {
+        font-size: .75rem;
+    }
+    h3 {
+        font-size: .85rem;
+    }
+    table {
+        font-size: .75rem;
+    }
+    .badge-image {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    #help-aside {
+        padding: 5% 0 0 5%;
+    }
+    #help-main {
+        padding: 0 5%;
+        margin: auto;
+        width: 100%;
+    }
+    .main-section-content {
+        padding: 0;
+    }
 }

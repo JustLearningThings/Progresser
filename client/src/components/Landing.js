@@ -93,16 +93,18 @@ export default function Landing() {
                         <h2 className='section-title'>Complete plans with plan cards</h2>
                         <div id='plans-demo'>
                             <div id='plan-demo-card' className='demo-card'>
-                                <h3 className='card-title'>Guitar</h3>
-                                <p className='card-level'>Level: 3</p>
+                                <h3 className='card-title'>Trip to Greece</h3>
+                                <p className='card-level'>Completed 60%</p>
                                 <div className='card-progress-bar'>
                                     <div className='card-progress-bar-inner'></div>
                                 </div>
-                                <p className='card-description'>Learn to play the guitar from zero</p>
+                                <p className='card-description'>Trip to Greece</p>
                                 <ul className='card-actions'>
-                                    <li className='card-action'>Learn chords</li>
-                                    <li className='card-action'>Note sheet reading</li>
-                                    <li className='card-action'>Learn and play a song</li>
+                                    <li className='card-action card-action-completed'>Book apartment</li>
+                                    <li className='card-action card-action-completed'>Pick a flight</li>
+                                    <li className='card-action card-action-completed'>Find places to visit</li>
+                                    <li className='card-action'>Pack things</li>
+                                    <li className='card-action'>Don't miss the flight</li>
                                 </ul>
                             </div>
                         </div>

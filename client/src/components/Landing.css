@@ -147,6 +147,8 @@
 .card-description, .card-level { font-weight: lighter; }
 .card-description, .card-action { font-size: .9rem; }
 
+.card-action-completed { text-decoration: line-through; }
+
 .card-title {
     font-weight: normal;
     margin-top: 0;

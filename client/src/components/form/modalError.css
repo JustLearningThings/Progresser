@@ -14,7 +14,21 @@
 #error-modal-box {
     text-align: center;
     padding: 30px;
-    background-color: black;
-    color: white;
+    background-color: whitesmoke;
+    color: black;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    animation: appear .25s linear forwards;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

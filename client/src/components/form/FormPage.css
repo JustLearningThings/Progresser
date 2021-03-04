@@ -12,7 +12,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 1.15rem;
+    font-size: .9rem;
 }
 
 #form-container {
@@ -91,7 +91,7 @@ form button:hover {
 }
 
 @media screen and (min-width: 992px) {
-    #nav ul { width: 30%; }
+    #nav ul { width: 20%; }
     #nav { justify-content: flex-start; }
     #form-container {
         width: 80vw;

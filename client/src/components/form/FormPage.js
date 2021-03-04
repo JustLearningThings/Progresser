@@ -61,14 +61,14 @@ export default function FormPage({ page }) {
         })
         .then(res => {
             if (res.ok) {
-                setState({ responseError: false })
+                setState({ responseError: false })                    
+
                 res.json().then(res => {
                     localStorage.setItem('userId', res.userId)
                     localStorage.setItem('username', res.username)
                     authContext.changeUser(res.userId, res.username)
                     history.push('/dashboard')
                 })
-                //history.push('/dashboard')
             }
             else {
                 res.json()

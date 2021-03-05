@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom'
 
 import Loading from '../Loading'
-import Popup, { PopupNotificationContext } from '../popup'
 import DarkTheme from '../../helpers/DarkTheme'
 
 import AuthContext from '../../auth/authContext'
@@ -30,7 +29,6 @@ export default function Dashboard() {
 
     // let [skills, setSkills] = useState([])
     const [isSmallViewport, setViewport] = useState(false)
-    let [popup, setPopup] = useState({ show: false, text: '' })
 
     useLayoutEffect(() => {
         // function to find out if the screen is small(mobile size) and change state
@@ -50,56 +48,52 @@ export default function Dashboard() {
     // add suspense to routes
     return (
         <div id='dashboard'>
-            <PopupNotificationContext.Provider value={{ setPopup }}>
-                {popup.show ? <Popup text={popup.text} showPopup={setPopup} /> : ''}
+            { isSmallViewport ? <MobileNav /> : <DashboardNav /> }
+            <div id='right-dashboard'>
+                { isSmallViewport ? '' : <DashboardUpperNav /> }
+                <main>
+                    <Switch>
+                        <Route exact path='/dashboard/skills'>
+                            <SkillsList />
+                        </Route>
+                        <Route exact path='/dashboard/skills/add'>
+                            <SkillForm method='POST' />
+                        </Route>
+                        <Route exact path='/dashboard/skills/:id'>
+                            <SkillController />
+                        </Route>
+                        <Route exact path='/dashboard/skills/update/:id'>
+                            <SkillForm method='PUT' />
+                        </Route>
 
-                { isSmallViewport ? <MobileNav /> : <DashboardNav /> }
-                <div id='right-dashboard'>
-                    { isSmallViewport ? '' : <DashboardUpperNav /> }
-                    <main>
-                        <Switch>
-                            <Route exact path='/dashboard/skills'>
-                                <SkillsList />
-                            </Route>
-                           <Route exact path='/dashboard/skills/add'>
-                                <SkillForm method='POST' />
-                           </Route>
-                           <Route exact path='/dashboard/skills/:id'>
-                                <SkillController />
-                           </Route>
-                           <Route exact path='/dashboard/skills/update/:id'>
-                                <SkillForm method='PUT' />
-                           </Route>
+                        <Route exact path='/dashboard/plans'>
+                            <PlansList />
+                        </Route>
+                        <Route exact path='/dashboard/plans/add'>
+                            <PlanForm method='POST' />
+                        </Route>
+                        <Route exact path='/dashboard/plans/:id'>
+                            <PlanController />
+                        </Route>
+                        <Route exact path='/dashboard/plans/update/:id'>
+                            <PlanForm method='PUT' />
+                        </Route>
 
-                           <Route exact path='/dashboard/plans'>
-                               <PlansList />
-                           </Route>
-                           <Route exact path='/dashboard/plans/add'>
-                               <PlanForm method='POST' />
-                           </Route>
-                           <Route exact path='/dashboard/plans/:id'>
-                               <PlanController />
-                           </Route>
-                           <Route exact path='/dashboard/plans/update/:id'>
-                               <PlanForm method='PUT' />
-                           </Route>
+                        <Route exact path='/dashboard/badges'>
+                            <BadgesList />
+                        </Route>
 
-                           <Route exact path='/dashboard/badges'>
-                               <BadgesList />
-                           </Route>
+                        <Route exact path='/dashboard/profile'>
+                            <Profile />
+                        </Route>
 
-                           <Route exact path='/dashboard/profile'>
-                               <Profile />
-                           </Route>
-
-                            {/* default */}
-                           <Route exact path='/dashboard'>
-                                <DefaultContent />
-                           </Route>
-                        </Switch>
-                    </main>
-                </div>
-            </PopupNotificationContext.Provider>
+                        {/* default */}
+                        <Route exact path='/dashboard'>
+                            <DefaultContent />
+                        </Route>
+                    </Switch>
+                </main>
+            </div>
         </div>
     )
 }

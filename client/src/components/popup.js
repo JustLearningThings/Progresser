@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import './popup.css'
 
-export default function Popup({ text, showPopup }) {
-    // function to close the popup
-    // with the state setting function from the component popup is called from
-    const closePopup = () => showPopup(false, '')
+export default function Popup({ setPopup, text }) {
+    const closePopup = () => setPopup(false)
     const popupHoldTime = 10000
 
     useEffect(() => {
@@ -19,7 +17,3 @@ export default function Popup({ text, showPopup }) {
         </div>
     )
 }
-
-const PopupNotificationContext = React.createContext({ setPopup: false })
-
-export { PopupNotificationContext }

@@ -8,10 +8,9 @@ import './PlanController.css'
 import AuthContext from '../../../auth/authContext'
 import { authFetch } from '../../../auth/auth'
 
-import Popup, { PopupNotificationContext } from '../../popup'
+import Popup from '../../popup'
 
 export default function PlanController() {
-    let popupContext = useContext(PopupNotificationContext)
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
@@ -25,6 +24,8 @@ export default function PlanController() {
         date: Date.now(),
     })
 
+    let [showPopup, setPopup] = useState(false)
+
     useEffect(() => {
         authFetch(`/api/plans/${id}`, null, history, authContext.changeUser, res => {
             res.json()
@@ -36,6 +37,8 @@ export default function PlanController() {
                         tasks: res.tasks,
                         date: res.date,
                     })
+
+
                 })
                 .catch(err => console.error(err))
         })
@@ -74,6 +77,10 @@ export default function PlanController() {
                         date: res.updatedPlan.date,
                         badge
                     })
+
+                    let shouldPopup = badge && Object.keys(badge).length > 0
+
+                    if (shouldPopup) setPopup(true)
                 })
                 .catch(err => console.error(err))
         })
@@ -104,10 +111,14 @@ export default function PlanController() {
     return (
         <div id='plan-controller'>
             { /* if a badge was earned/updated then show the popup notification */ }
-            { plan.badge && Object.keys(plan.badge).length > 0 ? <Popup
-                showPopup={popupContext.setPopup}
-                text={`${plan.badge.state === 'updated' ? `${plan.badge.name} badge had just leveled up` : `You earend a new badge: ${plan.badge.name}` }`}
-            /> : '' }
+            { showPopup
+                ? <Popup
+                        setPopup={setPopup}
+                        text={`${plan.badge.state === 'updated' ? `${plan.badge.name} badge had just leveled up` : `You earend a new badge: ${plan.badge.name}`}`}
+                  />
+                : ''
+            }
+
             <h2 className='main-title'>{plan.title}</h2>
             <div className='main-overflow-hidden'>
                 <div id='plan-links'>

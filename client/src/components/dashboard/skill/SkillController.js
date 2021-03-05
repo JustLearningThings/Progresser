@@ -8,10 +8,9 @@ import './SkillController.css'
 import AuthContext from '../../../auth/authContext'
 import { authFetch } from '../../../auth/auth'
 
-import Popup, { PopupNotificationContext } from '../../popup'
+import Popup from '../../popup'
 
 export default function SkillController() {
-    let popupContext = useContext(PopupNotificationContext)
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
@@ -26,6 +25,8 @@ export default function SkillController() {
         actions: [],
         date: Date.now()
     })
+    
+    let [showPopup, setPopup] = useState(skill && skill.badge && Object.keys(skill.badge).length > 0)
 
     useEffect(() => {
         authFetch(`/api/skills/${id}`, null, history, authContext.changeUser, res => 
@@ -76,6 +77,10 @@ export default function SkillController() {
                     date: res.updatedSkill.date,
                     badge
                 })
+
+                let shouldPopup = badge && Object.keys(badge).length > 0
+
+                if (shouldPopup) setPopup(true)
             })
             .catch(err => console.error(err))
         )
@@ -107,10 +112,14 @@ export default function SkillController() {
     return (
         <div id='skill-controller'>
             { /* if a badge was earned/updated then show the popup notification */}
-            {skill.badge && Object.keys(skill.badge).length > 0 ? <Popup
-                showPopup={popupContext.setPopup}
-                text={`${skill.badge.state === 'updated' ? `${skill.badge.name} badge had just leveled up` : `You earned a new badge: ${skill.badge.name}`}`}
-            /> : ''}
+            { showPopup 
+                ? <Popup
+                    setPopup={setPopup}
+                    text={`${skill.badge.state === 'updated' ? `${skill.badge.name} badge had just leveled up` : `You earned a new badge: ${skill.badge.name}`}`}
+                    />
+                : ''
+            }
+
             <h2 className='main-title'>{skill.title}</h2>
             <div className='main-overflow-hidden'>
                 <div id='skill-links'>
@@ -119,12 +128,12 @@ export default function SkillController() {
                         state: { id, skill, date, progressBarWidth }
                     }}>
                         Edit
-                </Link>
+                    </Link>
                     <span
                         className='skill-links-delete'
                         onClick={() => handleDelete()}>
                         Delete
-                </span>
+                    </span>
                 </div>
                 <div id='skill-controller-left'>
                     <div id='main-stats'>

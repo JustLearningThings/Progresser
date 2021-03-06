@@ -14,7 +14,9 @@ export default function PlanController() {
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
-    let { id } = location.state
+    let id = null
+
+    if (location && location.state) id = location.state.id
 
     let [plan, setPlan] = useState({
         title: '',

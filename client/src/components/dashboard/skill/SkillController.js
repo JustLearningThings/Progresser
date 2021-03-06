@@ -14,7 +14,9 @@ export default function SkillController() {
     let authContext = useContext(AuthContext)
     let location = useLocation()
     let history = useHistory()
-    let { id } = location.state
+    let id = null
+
+    if (location && location.state) id = location.state.id
 
     let [skill, setSkill] = useState({
         title: '',

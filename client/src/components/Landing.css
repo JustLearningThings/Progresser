@@ -273,7 +273,7 @@
     opacity: 0;
 }
 
-.circle {
+#landing .circle {
     border-radius: 50%;
     background-color: #29865D;
     position: absolute;

@@ -117,8 +117,6 @@
     animation: appear 1s 1s ease forwards;
 }
 
-/* #landing section:not(:last-child) { min-height: 650px; } */
-
 .demo-card {
     background-color: #E1DFAD;
     border-radius: 10px;

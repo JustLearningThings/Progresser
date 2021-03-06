@@ -7,7 +7,6 @@ import {
     Link
 } from 'react-router-dom'
 
-import Loading from '../Loading'
 import DarkTheme from '../../helpers/DarkTheme'
 
 import AuthContext from '../../auth/authContext'
@@ -25,9 +24,6 @@ const BadgesList = React.lazy(() => import('./badge/BadgesList'))
 const Profile = React.lazy(() => import('./profile/Profile'))
 
 export default function Dashboard() {
-    const history = useHistory()
-
-    // let [skills, setSkills] = useState([])
     const [isSmallViewport, setViewport] = useState(false)
 
     useLayoutEffect(() => {
@@ -45,7 +41,6 @@ export default function Dashboard() {
     if (localStorage && localStorage.getItem('dark')) body.classList.add('dark')
     else body.classList.add('light')
 
-    // add suspense to routes
     return (
         <div id='dashboard'>
             { isSmallViewport ? <MobileNav /> : <DashboardNav /> }
@@ -126,7 +121,6 @@ function DashboardUpperNav() {
     return (
         <nav id='upper-nav' aria-label='upper page navigation'>
             <div>
-                {/* <Link to={`/dashboard/profile/${ authContext.userId }`}>{ authContext.username }</Link> */}
                 <Link to={`/dashboard/profile/`}>{ authContext.username }</Link>
                 <Link to='/help'>Help</Link>
                 <Link to='/about'>About</Link>

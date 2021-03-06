@@ -108,8 +108,6 @@ export default function PlanController() {
         date = date.toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
     }
 
-    if (!plan.title) return (<Loading />)
-
     return (
         <div id='plan-controller'>
             { /* if a badge was earned/updated then show the popup notification */ }

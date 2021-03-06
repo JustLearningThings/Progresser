@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { BrowserRouter, useLocation, useHistory, Link } from 'react-router-dom'
-import Loading from '../../Loading'
 
 import '../Controller.css'
 import './SkillController.css'
@@ -108,8 +107,6 @@ export default function SkillController() {
         date = new Date(skill.date)
         date = date.toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
     }
-
-    // add conditional rendering(if description is present, render it, if not - do not)
 
     return (
         <div id='skill-controller'>

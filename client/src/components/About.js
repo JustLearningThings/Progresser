@@ -11,9 +11,6 @@ export default function About() {
                 <h2>About progresser</h2>
                 <p>Progresser is a web application created to help you achieve your goals. It is built by Denis Smocvin.</p>
                 <p>You can find the project on <a target='_blank' href='https://github.com/JustLearningThings/Progresser'>github</a>.</p>
-                <div id='socials'>
-
-                </div>
             </main>
         </div>
     )

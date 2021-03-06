@@ -75,7 +75,6 @@
 }
 
 #skill-form .skill-form-action, #plan-form .plan-form-task {
-    /* background: none; */
     cursor: initial;
 }
 
@@ -93,7 +92,6 @@
 }
 
 #skill-form .skill-form-action-name #skill-form .skill-form-action-value, #plan-form .plan-form-task-name {
-    /* background-color: var(--tertiaryColor); */
     min-height: 20px;
     padding: 2%;
 }

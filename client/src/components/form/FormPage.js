@@ -3,7 +3,6 @@ import { BrowserRouter, Link, useHistory } from 'react-router-dom'
 import './FormPage.css'
 
 import AuthContext from '../../auth/authContext'
-import { authFetch }  from '../../auth/auth'
 
 const ModalError = React.lazy(() => import('./modalError.js'))
 

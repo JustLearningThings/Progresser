@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
 
 import Nav from './Nav'
 import './Help.css'
-
-
 
 export default function Help() {
     let [badges, setBadges] = useState([])

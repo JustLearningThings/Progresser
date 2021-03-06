@@ -43,7 +43,7 @@ export default function Profile() {
                 stats: res.stats,
                 date: res.date
             }))
-            .then(res => console.log(res))
+            .catch(err => console.log(`An error occured while fetching user data: ${err}`))
         )
     },[])
 

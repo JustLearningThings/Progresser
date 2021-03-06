@@ -2,24 +2,22 @@ import React, { Component, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 
-import Loading from './Loading.js'
 import { refresh } from '../auth/auth'
 import AuthContext from '../auth/authContext'
 import ProtectedRoute from '../helpers/ProtectedRoute'
+
+import Loading from './Loading.js'
 import './App.css';
+
 // dynamic imports (code-splitting) may be a performance patch
 const Dashboard = React.lazy(() => import('./dashboard/Dashboard'))
 const FormPage = React.lazy(() => import('./form/FormPage'))
 const Landing = React.lazy(() => import('./Landing'))
 const Help = React.lazy(() => import('./Help'))
 const About = React.lazy(() => import('./About'))
-
-// const Loading = React.lazy(() => import('./Loading.js'))
-// const Loading = () => (<div className='loading'></div>)
 
 export default class App extends Component {
   constructor(props) {
